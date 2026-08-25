@@ -1,8 +1,8 @@
-@import "@rakazo/ui-tokens/css";
+@import "@troupe/ui-tokens/css";
 
 @source "./**/*.{ts,tsx}";
 
-@keyframes rakazo-avatar-spin {
+@keyframes troupe-avatar-spin {
   0% {
     transform: rotate(0deg);
   }
@@ -11,16 +11,16 @@
   }
 }
 
-.rakazo-bot-avatar-ring {
-  animation: rakazo-avatar-spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+.troupe-bot-avatar-ring {
+  animation: troupe-avatar-spin 1.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
 
-.rakazo-bot-avatar-eyes {
-  animation: var(--rakazo-eye-animation-name) var(--rakazo-eye-animation-duration)
-    var(--rakazo-eye-animation-easing) var(--rakazo-eye-animation-delay) infinite;
+.troupe-bot-avatar-eyes {
+  animation: var(--troupe-eye-animation-name) var(--troupe-eye-animation-duration)
+    var(--troupe-eye-animation-easing) var(--troupe-eye-animation-delay) infinite;
 }
 
-@keyframes rakazo-eyes-idle-0 {
+@keyframes troupe-eyes-idle-0 {
   0%,
   32%,
   100% {
@@ -48,7 +48,7 @@
   }
 }
 
-@keyframes rakazo-eyes-idle-1 {
+@keyframes troupe-eyes-idle-1 {
   0%,
   25%,
   100% {
@@ -76,7 +76,7 @@
   }
 }
 
-@keyframes rakazo-eyes-idle-2 {
+@keyframes troupe-eyes-idle-2 {
   0%,
   28%,
   100% {
@@ -104,7 +104,7 @@
   }
 }
 
-@keyframes rakazo-eyes-idle-3 {
+@keyframes troupe-eyes-idle-3 {
   0%,
   24%,
   100% {
@@ -132,7 +132,7 @@
   }
 }
 
-@keyframes rakazo-eyes-working {
+@keyframes troupe-eyes-working {
   0% {
     transform: translate(-4px, 0) scale(0.92, 0.95);
   }
@@ -151,12 +151,12 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .rakazo-bot-avatar-ring,
-  .rakazo-bot-avatar-eyes {
+  .troupe-bot-avatar-ring,
+  .troupe-bot-avatar-eyes {
     animation: none;
   }
 
-  .rakazo-bot-avatar-visor {
+  .troupe-bot-avatar-visor {
     transition: none;
   }
 }

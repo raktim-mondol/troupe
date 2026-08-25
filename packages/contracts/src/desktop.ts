@@ -1,4 +1,4 @@
-export interface RakazoDesktop {
+export interface TroupeDesktop {
   platform: string;
   window: {
     close: () => Promise<void>;

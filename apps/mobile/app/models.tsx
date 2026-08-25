@@ -1,10 +1,10 @@
-import type { ModelOAuthBegin } from "@rakazo/contracts";
+import type { ModelOAuthBegin } from "@troupe/contracts";
 import {
   OPENAI_COMPATIBLE_BASE_URL_HINT,
   OPENAI_COMPATIBLE_PROVIDER_ID,
   openAiCompatibleConnectReady,
   openAiCompatibleProbeSuccessMessage,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import { useFocusEffect } from "expo-router";
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
@@ -710,7 +710,7 @@ export default function Models() {
 
             {selected.auth === "oauth" && !subscriptionSignIn ? (
               <Text style={styles.secondary}>
-                This subscription sign-in is not available in Rakazo yet. Use a deployment
+                This subscription sign-in is not available in Troupe yet. Use a deployment
                 credential or choose another provider.
               </Text>
             ) : null}

@@ -1,5 +1,5 @@
-import type { ThreadMessage, ThreadSnapshot } from "@rakazo/contracts";
-import { narrateTool, speechFromBlocks, spokenDecision } from "@rakazo/core";
+import type { ThreadMessage, ThreadSnapshot } from "@troupe/contracts";
+import { narrateTool, speechFromBlocks, spokenDecision } from "@troupe/core";
 import { useEffect, useRef, useState } from "react";
 import { dictation } from "../lib/dictation";
 import { speaker } from "../lib/tts";

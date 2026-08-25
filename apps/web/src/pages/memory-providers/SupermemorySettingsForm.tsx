@@ -1,4 +1,4 @@
-import { Button } from "@rakazo/ui-web";
+import { Button } from "@troupe/ui-web";
 import { useState } from "react";
 import type { MemoryProviderConnectionDraft, MemoryProviderSettingsFormProps } from "./registry";
 

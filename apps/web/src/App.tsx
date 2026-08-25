@@ -1,64 +1,54 @@
-import { lazy, Suspense, useLayoutEffect } from "react";
+import { lazy, Suspense, useEffect, useLayoutEffect, useState } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 import { authClient } from "./lib/auth";
 import { markAfterPaint, markOnce } from "./lib/performance";
 import { McpOAuthCallbackPage } from "./pages/McpOAuthCallback";
 import { ShellPage } from "./pages/Shell";
 
-const AuthPage = lazy(() =>
-  import("./pages/Auth").then((module) => ({ default: module.AuthPage })),
-);
 const OnboardingPage = lazy(() =>
   import("./pages/Onboarding").then((module) => ({ default: module.OnboardingPage })),
-);
-const WelcomePage = lazy(() =>
-  import("./pages/Welcome").then((module) => ({ default: module.WelcomePage })),
 );
 
 export function App() {
   const session = authClient.useSession();
+  const [localSigninAttempted, setLocalSigninAttempted] = useState(false);
+
+  useEffect(() => {
+    if (session.isPending) return;
+    if (session.data?.user) return;
+    if (localSigninAttempted) return;
+    setLocalSigninAttempted(true);
+    void fetch("/api/auth/local-signin", { method: "POST", credentials: "include" })
+      .then(() => session.refetch())
+      .catch(() => undefined);
+  }, [session, localSigninAttempted]);
+
   useLayoutEffect(() => {
     if (session.isPending) return;
     markOnce("rk:renderer:session-committed");
     markAfterPaint("rk:renderer:session-painted");
   }, [session.isPending]);
-  if (session.isPending) {
+  if (session.isPending || !session.data?.user) {
     return window.location.pathname.startsWith("/app") ? (
       <ShellSkeleton />
     ) : (
       <div className="grid h-full place-items-center text-[#6C6C70]">Loading…</div>
     );
   }
-  const user = session.data?.user;
   return (
     <Suspense fallback={<div className="h-full bg-[#050506]" />}>
       <Routes>
-        <Route path="/" element={user ? <Navigate to="/app" replace /> : <WelcomePage />} />
-        <Route
-          path="/sign-in"
-          element={user ? <Navigate to="/app" replace /> : <AuthPage mode="in" />}
-        />
-        <Route
-          path="/sign-up"
-          element={user ? <Navigate to="/onboarding" replace /> : <AuthPage mode="up" />}
-        />
-        <Route
-          path="/onboarding"
-          element={user ? <OnboardingPage /> : <Navigate to="/sign-in" replace />}
-        />
+        <Route path="/" element={<Navigate to="/app" replace />} />
+        <Route path="/sign-in" element={<Navigate to="/app" replace />} />
+        <Route path="/sign-up" element={<Navigate to="/onboarding" replace />} />
+        <Route path="/onboarding" element={<OnboardingPage />} />
         <Route
           path="/mcp/oauth/callback"
-          element={user ? <McpOAuthCallbackPage /> : <Navigate to="/sign-in" replace />}
+          element={<McpOAuthCallbackPage />}
         />
-        <Route path="/app" element={user ? <ShellPage /> : <Navigate to="/sign-in" replace />} />
-        <Route
-          path="/app/g/:groupId"
-          element={user ? <ShellPage /> : <Navigate to="/sign-in" replace />}
-        />
-        <Route
-          path="/app/:botId"
-          element={user ? <ShellPage /> : <Navigate to="/sign-in" replace />}
-        />
+        <Route path="/app" element={<ShellPage />} />
+        <Route path="/app/g/:groupId" element={<ShellPage />} />
+        <Route path="/app/:botId" element={<ShellPage />} />
       </Routes>
     </Suspense>
   );

@@ -13,15 +13,15 @@ import type {
   NotificationProvider,
   SandboxProvider,
   SemanticMemoryProvider,
-} from "@rakazo/adapter-kit";
+} from "@troupe/adapter-kit";
 import {
   historyCompactJob,
   routineJobKey,
   routineWakeupJob,
   runContinueJob,
-} from "@rakazo/adapter-kit";
-import type { MessageBlock, RunStatus } from "@rakazo/contracts";
-import { ATTACHMENT_MAX_BYTES, isAttachmentImageMimeType } from "@rakazo/contracts";
+} from "@troupe/adapter-kit";
+import type { MessageBlock, RunStatus } from "@troupe/contracts";
+import { ATTACHMENT_MAX_BYTES, isAttachmentImageMimeType } from "@troupe/contracts";
 import {
   type ActionApprovalRule,
   appendTextSegment,
@@ -48,8 +48,8 @@ import {
   trackToolCallStreak,
   trackToolNameStreak,
   userTurnBlocksForRun,
-} from "@rakazo/core";
-import { approvalEffectKey } from "@rakazo/core/node/approval-effect-key";
+} from "@troupe/core";
+import { approvalEffectKey } from "@troupe/core/node/approval-effect-key";
 import {
   appendEventInTransaction,
   createThreadMessageInTransaction,
@@ -60,7 +60,7 @@ import {
   type PrismaClient,
   parseComputerMode,
   type ThreadEvents,
-} from "@rakazo/db";
+} from "@troupe/db";
 import { buildApprovalAskBlock } from "./approval-ask.js";
 import {
   approvalPausedToolResult,
@@ -164,6 +164,10 @@ const READ_ONLY_AGENT_TOOLS = new Set([
   "recall_memory",
   "schedule_list",
 ]);
+// Minimum spacing between consecutive live progress flushes. Small enough
+// that fast streams still feel smooth (UI receives ~10 updates/sec), large
+// enough to avoid a DB write per stream chunk.
+const PROGRESS_FLUSH_INTERVAL_MS = 100;
 const MAX_MODEL_FILE_BYTES = 250_000;
 // Same tool, same arguments, this many times in a row means the agent is stuck, not paginating.
 const MAX_CONSECUTIVE_IDENTICAL_TOOL_CALLS = 6;
@@ -1615,7 +1619,7 @@ export function createRunExecutor(deps: ExecutorDeps) {
               tryFlushPendingTools();
               pendingProgress += progressRedactor.push(event.text);
               const now = Date.now();
-              if (!scripted && pendingProgress && now - lastProgressAt >= 250) {
+              if (!scripted && pendingProgress && now - lastProgressAt >= PROGRESS_FLUSH_INTERVAL_MS) {
                 await flushProgress();
               }
             } else if (event.type === "progress") {
@@ -2356,7 +2360,7 @@ async function loadCurrentTurnImages(
     },
   });
   const byId = new Map(rows.map((row) => [row.id, row]));
-  const images: NonNullable<import("@rakazo/adapter-kit").AgentRunRequest["currentTurnImages"]> =
+  const images: NonNullable<import("@troupe/adapter-kit").AgentRunRequest["currentTurnImages"]> =
     [];
 
   for (const block of imageBlocks) {

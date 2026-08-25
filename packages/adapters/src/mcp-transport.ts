@@ -216,7 +216,7 @@ export class McpSession {
 
   private newClient(): Client {
     return new Client(
-      { name: this.clientOptions.name ?? "rakazo", version: this.clientOptions.version ?? "0.1.0" },
+      { name: this.clientOptions.name ?? "troupe", version: this.clientOptions.version ?? "0.1.0" },
       this.clientOptions.capabilities,
     );
   }

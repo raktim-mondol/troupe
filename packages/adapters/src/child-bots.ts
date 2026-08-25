@@ -5,10 +5,10 @@ import type {
   ArtifactStore,
   JobPublisher,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
-import { routineJobKey, runContinueJob, runJobKey } from "@rakazo/adapter-kit";
-import { type Actor, type Bot, GROUP_MEMBER_MIN } from "@rakazo/contracts";
-import { ACTIVE_RUN_STATUSES } from "@rakazo/core";
+} from "@troupe/adapter-kit";
+import { routineJobKey, runContinueJob, runJobKey } from "@troupe/adapter-kit";
+import { type Actor, type Bot, GROUP_MEMBER_MIN } from "@troupe/contracts";
+import { ACTIVE_RUN_STATUSES } from "@troupe/core";
 import {
   computerScopeKey,
   createRepos,
@@ -16,7 +16,7 @@ import {
   type Prisma,
   type PrismaClient,
   withTransactionRetry,
-} from "@rakazo/db";
+} from "@troupe/db";
 import { toComputerRef } from "./computer-support.js";
 import { checkpointAndRecordComputerWorkspace } from "./computer-workspace.js";
 import { resolveAgentHomePath } from "./home.js";

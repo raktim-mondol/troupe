@@ -4,8 +4,8 @@ import {
   GROUP_MEMBER_MIN,
   type Group,
   type GroupMember,
-} from "@rakazo/contracts";
-import { ACTIVE_RUN_STATUSES } from "@rakazo/core";
+} from "@troupe/contracts";
+import { ACTIVE_RUN_STATUSES } from "@troupe/core";
 import type { Prisma, PrismaClient } from "./client.js";
 import { IsolationError } from "./scope.js";
 

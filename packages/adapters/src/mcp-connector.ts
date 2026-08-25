@@ -4,8 +4,8 @@ import type {
   ConnectorEvent,
   ConnectorProvider,
   ConnectorTool,
-} from "@rakazo/adapter-kit";
-import type { McpServer, PrismaClient } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import type { McpServer, PrismaClient } from "@troupe/db";
 import type { McpOAuthBroker, OAuthMaterial } from "./mcp-oauth.js";
 import { McpSession } from "./mcp-transport.js";
 import type { RemoteTransportDependencies } from "./remote-mcp.js";
@@ -165,7 +165,7 @@ export class McpConnector implements ConnectorProvider {
   }
 
   private async connectSession(server: McpServer, context: AdapterContext): Promise<McpSession> {
-    const session = new McpSession({ name: `rakazo-${server.slug}` });
+    const session = new McpSession({ name: `troupe-${server.slug}` });
     try {
       const secret = server.secretId
         ? await this.prisma.secret.findFirst({

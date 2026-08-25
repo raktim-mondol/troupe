@@ -3,7 +3,7 @@ import { captureScreenshot, completeOnboarding, signup } from "./helpers";
 
 test("pinned bots and sidebar sections persist", async ({ page }, testInfo) => {
   const stamp = Date.now();
-  await signup(page, `bot-organize-${stamp}@rakazo.test`, "password12", "Test User");
+  await signup(page, `bot-organize-${stamp}@troupe.test`, "password12", "Test User");
   await completeOnboarding(page);
   await page.goto("/app");
   await page.waitForURL(/\/app\/[^/]+$/);

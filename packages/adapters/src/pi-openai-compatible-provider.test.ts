@@ -1,5 +1,5 @@
 import { builtinModels } from "@earendil-works/pi-ai/providers/all";
-import { OPENAI_COMPATIBLE_PROVIDER_ID } from "@rakazo/contracts";
+import { OPENAI_COMPATIBLE_PROVIDER_ID } from "@troupe/contracts";
 import { describe, expect, it } from "vitest";
 import { buildModelConnectPlaintext } from "./model-connect.js";
 import { listPiCatalog } from "./pi-models.js";
@@ -144,8 +144,8 @@ describe("openai-compatible provider", () => {
     expect(cancelled).toBe(true);
   });
 
-  it("lists openai-compatible in the catalog even without RAKAZO_LOCAL_MODELS", () => {
-    delete process.env.RAKAZO_LOCAL_MODELS;
+  it("lists openai-compatible in the catalog even without TROUPE_LOCAL_MODELS", () => {
+    delete process.env.TROUPE_LOCAL_MODELS;
     const entries = listPiCatalog().filter(
       (entry) => entry.provider === OPENAI_COMPATIBLE_PROVIDER_ID,
     );

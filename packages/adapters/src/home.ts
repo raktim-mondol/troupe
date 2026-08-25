@@ -13,7 +13,7 @@ import {
   writeFile,
 } from "node:fs/promises";
 import path from "node:path";
-import type { AdapterContext, AgentHomeStore, PortableFile } from "@rakazo/adapter-kit";
+import type { AdapterContext, AgentHomeStore, PortableFile } from "@troupe/adapter-kit";
 
 export class LocalAgentHomeStore implements AgentHomeStore {
   private readonly botWrites = new Map<string, Promise<void>>();

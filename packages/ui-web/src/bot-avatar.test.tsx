@@ -26,7 +26,7 @@ describe("BotAvatar", () => {
     (status) => {
       const html = renderToString(<BotAvatar color="#3B82F6" status={status} />);
       expect(html).toContain("<svg");
-      expect(html).toContain("rakazo-bot-avatar-ring");
+      expect(html).toContain("troupe-bot-avatar-ring");
     },
   );
 

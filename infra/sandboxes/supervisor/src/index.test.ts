@@ -1,5 +1,5 @@
 import { spawnSync } from "node:child_process";
-import { resolveSupervisorToken } from "@rakazo/core";
+import { resolveSupervisorToken } from "@troupe/core";
 import { describe, expect, it } from "vitest";
 import { resolveDockerSocketPath, supervisorApp } from "./index.js";
 import {
@@ -78,8 +78,8 @@ describe("sandbox supervisor HTTP boundary", () => {
       headers: {
         authorization: `Bearer ${token}`,
         "content-type": "application/json",
-        "x-rakazo-bot-id": "other-bot",
-        "x-rakazo-workspace-id": "workspace",
+        "x-troupe-bot-id": "other-bot",
+        "x-troupe-workspace-id": "workspace",
       },
       body: JSON.stringify({
         botId: "bot",

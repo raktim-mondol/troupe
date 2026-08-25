@@ -1,6 +1,6 @@
-import type { SandboxProvider } from "@rakazo/adapter-kit";
-import type { Actor } from "@rakazo/contracts";
-import type { PrismaClient } from "@rakazo/db";
+import type { SandboxProvider } from "@troupe/adapter-kit";
+import type { Actor } from "@troupe/contracts";
+import type { PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { stopThreadRuns, type ThreadTarget, threadSnapshot } from "./thread-target.js";
 

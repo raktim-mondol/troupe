@@ -42,11 +42,11 @@ describe("mobile API authentication", () => {
       "http://127.0.0.1:3100/api/auth/sign-in/email",
       expect.objectContaining({
         method: "POST",
-        headers: { "content-type": "application/json", origin: "rakazo://" },
+        headers: { "content-type": "application/json", origin: "troupe://" },
         body: JSON.stringify({ email: "ada@example.com", password: "correct horse" }),
       }),
     );
-    expect(SecureStore.setItemAsync).toHaveBeenCalledWith("rakazo.session_token", "session-token");
+    expect(SecureStore.setItemAsync).toHaveBeenCalledWith("troupe.session_token", "session-token");
   });
 
   it("surfaces the server message and does not persist a failed sign-in", async () => {
@@ -67,7 +67,7 @@ describe("mobile API authentication", () => {
     );
 
     await expect(signOut()).resolves.toBeUndefined();
-    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("rakazo.session_token");
+    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("troupe.session_token");
   });
 
   it("sends authenticated RPC input and reports structured RPC errors", async () => {

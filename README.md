@@ -1,15 +1,15 @@
-# Rakazo
+# Troupe
 
-[![GitHub stars](https://img.shields.io/github/stars/elie222/rakazo?labelColor=black&style=for-the-badge&color=2563EB)](https://github.com/elie222/rakazo/stargazers)
+[![GitHub stars](https://img.shields.io/github/stars/raktim-mondol/troupe?labelColor=black&style=for-the-badge&color=2563EB)](https://github.com/raktim-mondol/troupe/stargazers)
 [![Discord](https://img.shields.io/badge/Discord-Join%20the%20community-5865F2?labelColor=black&style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/RWwKa2Sn7h)
 
-![Rakazo — AI teammates you actually own](./docs/readme-hero.png)
+![Troupe — AI teammates you actually own](./docs/readme-hero.png)
 
-Rakazo is an open-source platform for running persistent AI teammates. It is available on the web,
+Troupe is an open-source platform for running persistent AI teammates. It is available on the web,
 as an Electron desktop app, and through an Expo mobile app. Bring your own model and computer
 provider, or run the complete stack locally.
 
-Rakazo is in beta. Learn more at [rakazo.com](https://rakazo.com).
+Troupe is in beta. Learn more at [troupe.com](https://troupe.com).
 
 ## Features
 
@@ -44,8 +44,8 @@ https://github.com/user-attachments/assets/dccdeddb-2134-4a56-8eed-b2e591736b1c
 You need Node.js 22+, pnpm 9, and Docker Desktop.
 
 ```bash
-git clone https://github.com/elie222/rakazo.git
-cd rakazo
+git clone https://github.com/raktim-mondol/troupe.git
+cd troupe
 cp .env.example .env
 ```
 
@@ -79,19 +79,19 @@ provider selection, backups, and upgrades, see the [self-hosting guide](./docs/s
 
 ## Desktop and mobile
 
-The Electron and Expo apps are clients of the same Rakazo API used by the web app.
+The Electron and Expo apps are clients of the same Troupe API used by the web app.
 
 With the development stack running, launch Electron with:
 
 ```bash
-pnpm --filter @rakazo/desktop dev
+pnpm --filter @troupe/desktop dev
 ```
 
 Mobile build and release instructions live in [docs/mobile-release.md](./docs/mobile-release.md).
 
 ## Development
 
-Rakazo is a TypeScript monorepo built with React, Electron, Expo, Hono, Postgres, Prisma, Graphile
+Troupe is a TypeScript monorepo built with React, Electron, Expo, Hono, Postgres, Prisma, Graphile
 Worker, and Pi.
 
 ```text
@@ -142,6 +142,6 @@ Contributions are welcome. Please read [CONTRIBUTING.md](./CONTRIBUTING.md) befo
 request. For security vulnerabilities, follow [SECURITY.md](./SECURITY.md) instead of filing a public
 issue.
 
-Rakazo is licensed under the [Apache License 2.0](./LICENSE).
+Troupe is licensed under the [Apache License 2.0](./LICENSE).
 
-Questions and ideas are welcome in the [Rakazo Discord community](https://discord.gg/RWwKa2Sn7h).
+Questions and ideas are welcome in the [Troupe Discord community](https://discord.gg/RWwKa2Sn7h).

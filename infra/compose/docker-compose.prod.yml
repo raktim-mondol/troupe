@@ -1,4 +1,4 @@
-name: rakazo-prod
+name: troupe-prod
 
 services:
   postgres:
@@ -9,15 +9,15 @@ services:
     pids_limit: 200
     mem_limit: 2g
     environment:
-      POSTGRES_USER: ${POSTGRES_USER:-rakazo}
+      POSTGRES_USER: ${POSTGRES_USER:-troupe}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      POSTGRES_DB: ${POSTGRES_DB:-rakazo}
+      POSTGRES_DB: ${POSTGRES_DB:-troupe}
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rakazo} -d ${POSTGRES_DB:-rakazo}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-troupe} -d ${POSTGRES_DB:-troupe}"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -32,7 +32,7 @@ services:
     command:
       - bash
       - -lc
-      - pnpm --filter @rakazo/db exec prisma migrate deploy && pnpm --filter @rakazo/api start
+      - pnpm --filter @troupe/db exec prisma migrate deploy && pnpm --filter @troupe/api start
     init: true
     security_opt:
       - no-new-privileges:true
@@ -44,7 +44,7 @@ services:
       - ../../.env
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://${POSTGRES_USER:-rakazo}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rakazo}
+      DATABASE_URL: postgres://${POSTGRES_USER:-troupe}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-troupe}
       DATA_DIR: /data
       SANDBOX_PROVIDER: e2b
       WAKEUP_DRIVER: graphile
@@ -75,7 +75,7 @@ services:
       context: ../..
       dockerfile: infra/compose/Dockerfile
     restart: unless-stopped
-    command: ["pnpm", "--filter", "@rakazo/worker", "start"]
+    command: ["pnpm", "--filter", "@troupe/worker", "start"]
     init: true
     security_opt:
       - no-new-privileges:true
@@ -87,7 +87,7 @@ services:
       - ../../.env
     environment:
       NODE_ENV: production
-      DATABASE_URL: postgres://${POSTGRES_USER:-rakazo}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-rakazo}
+      DATABASE_URL: postgres://${POSTGRES_USER:-troupe}:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}@postgres:5432/${POSTGRES_DB:-troupe}
       DATA_DIR: /data
       SANDBOX_PROVIDER: e2b
       WAKEUP_DRIVER: graphile
@@ -108,7 +108,7 @@ services:
       context: ../..
       dockerfile: infra/compose/Dockerfile
     restart: unless-stopped
-    command: ["pnpm", "--filter", "@rakazo/web", "preview", "--host", "0.0.0.0", "--port", "5173"]
+    command: ["pnpm", "--filter", "@troupe/web", "preview", "--host", "0.0.0.0", "--port", "5173"]
     init: true
     security_opt:
       - no-new-privileges:true
@@ -143,7 +143,7 @@ services:
     pids_limit: 128
     mem_limit: 256m
     environment:
-      RAKAZO_HOST: ${RAKAZO_HOST:-app.example.com}
+      TROUPE_HOST: ${TROUPE_HOST:-app.example.com}
     ports:
       - "80:80"
       - "443:443"

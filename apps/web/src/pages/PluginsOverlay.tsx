@@ -1,6 +1,6 @@
-import type { CapabilityInstall, ConnectionCatalogItem } from "@rakazo/contracts";
-import { abortableDelay } from "@rakazo/core";
-import { Button } from "@rakazo/ui-web";
+import type { CapabilityInstall, ConnectionCatalogItem } from "@troupe/contracts";
+import { abortableDelay } from "@troupe/core";
+import { Button } from "@troupe/ui-web";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { rpc } from "../lib/rpc";
 
@@ -346,7 +346,7 @@ export function PluginsOverlay({
                     />
                   ) : null}
                   <p className="text-xs leading-5 text-[#707077]">
-                    Rakazo verifies the source before saving it. Credentials are encrypted and are
+                    Troupe verifies the source before saving it. Credentials are encrypted and are
                     never returned to clients or exposed to the model.
                   </p>
                   <div className="flex gap-2">

@@ -1,4 +1,4 @@
-import { ACTIVE_RUN_STATUSES } from "@rakazo/core";
+import { ACTIVE_RUN_STATUSES } from "@troupe/core";
 import { type CSSProperties, memo, useId } from "react";
 import { cn } from "./lib/utils.js";
 import "./styles.css";
@@ -31,18 +31,18 @@ export const BotAvatar = memo(function BotAvatar({
   const gradId = `spin-grad-${useId().replace(/[^a-zA-Z0-9-_]/g, "")}`;
   const eyeGlow = `0 0 4px #FFFFFF, 0 0 8px #FFFFFF, 0 0 14px ${lightenColor(color, 20)}`;
   const eyeAnimation = {
-    "--rakazo-eye-animation-name": isWorking
-      ? "rakazo-eyes-working"
-      : `rakazo-eyes-idle-${variant}`,
-    "--rakazo-eye-animation-duration": isWorking ? "1.4s" : `${idleDuration}s`,
-    "--rakazo-eye-animation-easing": isWorking ? "ease-in-out" : "cubic-bezier(0.4, 0, 0.2, 1)",
-    "--rakazo-eye-animation-delay": isWorking ? "0s" : `${idleDelay}s`,
+    "--troupe-eye-animation-name": isWorking
+      ? "troupe-eyes-working"
+      : `troupe-eyes-idle-${variant}`,
+    "--troupe-eye-animation-duration": isWorking ? "1.4s" : `${idleDuration}s`,
+    "--troupe-eye-animation-easing": isWorking ? "ease-in-out" : "cubic-bezier(0.4, 0, 0.2, 1)",
+    "--troupe-eye-animation-delay": isWorking ? "0s" : `${idleDelay}s`,
   } as CSSProperties;
 
   return (
     <div
       className={cn(
-        "rakazo-bot-avatar group relative flex items-center justify-center rounded-full select-none",
+        "troupe-bot-avatar group relative flex items-center justify-center rounded-full select-none",
         className,
       )}
       data-working={isWorking}
@@ -58,7 +58,7 @@ export const BotAvatar = memo(function BotAvatar({
     >
       {isWorking ? (
         <svg
-          className="rakazo-bot-avatar-ring absolute pointer-events-none"
+          className="troupe-bot-avatar-ring absolute pointer-events-none"
           style={{
             inset: -4,
             width: size + 8,
@@ -89,7 +89,7 @@ export const BotAvatar = memo(function BotAvatar({
       ) : null}
 
       <div
-        className="rakazo-bot-avatar-visor relative flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-[1.04]"
+        className="troupe-bot-avatar-visor relative flex items-center justify-center overflow-hidden transition-transform duration-200 group-hover:scale-[1.04]"
         style={{
           width: visorW,
           height: visorH,
@@ -108,7 +108,7 @@ export const BotAvatar = memo(function BotAvatar({
         />
 
         <div
-          className="rakazo-bot-avatar-eyes relative z-10 flex items-center justify-center"
+          className="troupe-bot-avatar-eyes relative z-10 flex items-center justify-center"
           style={{
             gap: eyeGap,
             ...eyeAnimation,
@@ -180,7 +180,7 @@ export function Wordmark({ className }: { className?: string }) {
         <span className="h-4 w-[7px] rounded-full bg-[#F7F7F4]" />
       </div>
       <span className="font-[Aeonik,ui-sans-serif] text-[28px] tracking-tight text-[#1B1B1E]">
-        Rakazo
+        Troupe
       </span>
     </div>
   );

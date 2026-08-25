@@ -1,4 +1,4 @@
-import { ACTIVE_RUN_STATUSES } from "@rakazo/core";
+import { ACTIVE_RUN_STATUSES } from "@troupe/core";
 import { memo } from "react";
 import { View } from "react-native";
 

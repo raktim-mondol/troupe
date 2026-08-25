@@ -12,7 +12,7 @@ import {
 describe("embeddableScreenUrl", () => {
   it("leaves a public stream URL alone", () => {
     const url = "https://sandbox.e2b.app/stream?authKey=abc&view_only=true";
-    expect(embeddableScreenUrl(url, "https://api.rakazo.test")).toBe(url);
+    expect(embeddableScreenUrl(url, "https://api.troupe.test")).toBe(url);
   });
 
   it("keeps loopback screens when the API is also loopback", () => {

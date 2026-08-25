@@ -5,9 +5,9 @@ import type {
   ComputerRef,
   JobPublisher,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
-import { screenLeaseId } from "@rakazo/core";
-import { type PrismaClient, parseComputerMode, type ThreadEvents } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import { screenLeaseId } from "@troupe/core";
+import { type PrismaClient, parseComputerMode, type ThreadEvents } from "@troupe/db";
 import { expireComputerControl, hasActiveComputerControl } from "./computer-control.js";
 import { ensureComputerWorkspaceLayout, restoreComputerWorkspace } from "./computer-workspace.js";
 import { resolveAgentHomePath } from "./home.js";

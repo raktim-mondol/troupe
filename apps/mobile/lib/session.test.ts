@@ -24,8 +24,8 @@ describe("mobile session storage", () => {
     await saveSessionToken("secret-token");
     await clearSessionToken();
 
-    expect(SecureStore.setItemAsync).toHaveBeenCalledWith("rakazo.session_token", "secret-token");
-    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("rakazo.session_token");
+    expect(SecureStore.setItemAsync).toHaveBeenCalledWith("troupe.session_token", "secret-token");
+    expect(SecureStore.deleteItemAsync).toHaveBeenCalledWith("troupe.session_token");
   });
 
   it("returns an empty token when secure storage is empty or unavailable", async () => {

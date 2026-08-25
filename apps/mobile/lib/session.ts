@@ -1,6 +1,6 @@
 import * as SecureStore from "expo-secure-store";
 
-const SESSION_KEY = "rakazo.session_token";
+const SESSION_KEY = "troupe.session_token";
 
 export async function loadSessionToken() {
   try {

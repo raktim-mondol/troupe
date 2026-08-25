@@ -7,7 +7,7 @@ import type {
   MessageBlock,
   ModelCatalogEntry,
   ModelCredential,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import {
   isRunTerminalEvent,
   mergeThreadHistory,
@@ -15,7 +15,7 @@ import {
   progressMessageId,
   reduceLiveMessageBlocks,
   type ThreadHistory,
-} from "@rakazo/core";
+} from "@troupe/core";
 import * as SecureStore from "expo-secure-store";
 import { defaultApiBase, type EndpointResult, normalizeApiBase } from "./endpoint";
 import {
@@ -25,7 +25,7 @@ import {
   tokenFromAuthResponse,
 } from "./session";
 
-const ENDPOINT_KEY = "rakazo.api_base";
+const ENDPOINT_KEY = "troupe.api_base";
 
 let cachedApiBase: string | undefined;
 
@@ -88,7 +88,7 @@ async function authHeaders(): Promise<Record<string, string>> {
 export async function signIn(email: string, password: string) {
   const res = await fetch(`${currentApiBase()}/api/auth/sign-in/email`, {
     method: "POST",
-    headers: { "content-type": "application/json", origin: "rakazo://" },
+    headers: { "content-type": "application/json", origin: "troupe://" },
     body: JSON.stringify({ email, password }),
   });
   const body = await res.json().catch(() => ({}));
@@ -104,7 +104,7 @@ export async function signOut() {
   const headers = await authHeaders();
   await fetch(`${currentApiBase()}/api/auth/sign-out`, {
     method: "POST",
-    headers: { "content-type": "application/json", origin: "rakazo://", ...headers },
+    headers: { "content-type": "application/json", origin: "troupe://", ...headers },
   }).catch(() => undefined);
   await clearSessionToken();
 }
@@ -112,7 +112,7 @@ export async function signOut() {
 export async function deleteAccount(password: string) {
   const res = await fetch(`${currentApiBase()}/api/auth/delete-user`, {
     method: "POST",
-    headers: { "content-type": "application/json", origin: "rakazo://", ...(await authHeaders()) },
+    headers: { "content-type": "application/json", origin: "troupe://", ...(await authHeaders()) },
     body: JSON.stringify({ password }),
   });
   const body = await res.json().catch(() => ({}));
@@ -131,7 +131,7 @@ export async function rpc<T>(
     method: "POST",
     headers: {
       "content-type": "application/json",
-      origin: "rakazo://",
+      origin: "troupe://",
       ...(await authHeaders()),
     },
     body: JSON.stringify({ json: body }),
@@ -299,7 +299,7 @@ export async function subscribeThread(
     headers: {
       "content-type": "application/json",
       accept: "text/event-stream",
-      origin: "rakazo://",
+      origin: "troupe://",
       ...(await authHeaders()),
     },
     body: JSON.stringify({ json: { ...target, cursor } }),

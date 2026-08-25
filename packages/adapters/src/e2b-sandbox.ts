@@ -16,8 +16,8 @@ import type {
   SandboxProvider,
   ScreenRequest,
   ScreenSession,
-} from "@rakazo/adapter-kit";
-import { boundedSandboxCommandTimeoutMs } from "@rakazo/core";
+} from "@troupe/adapter-kit";
+import { boundedSandboxCommandTimeoutMs } from "@troupe/core";
 import { sandboxIdleMs } from "./computer-idle.js";
 import { ComputerScreenUnavailableError, screenSessionKey } from "./computer-screens.js";
 import {
@@ -51,7 +51,7 @@ import {
   screenControlKey,
 } from "./extra-displays.js";
 
-const E2B_WORKSPACE = "/home/user/rakazo-home";
+const E2B_WORKSPACE = "/home/user/troupe-home";
 const E2B_BROWSER_PROFILES = `${E2B_WORKSPACE}/.browser-profiles`;
 
 export interface E2BSandboxSdk {
@@ -64,7 +64,7 @@ export function e2bCreateOptions(botId: string, apiKey: string) {
   return {
     apiKey,
     timeoutMs: sandboxIdleMs(),
-    metadata: { botId, rakazo: "computer" },
+    metadata: { botId, troupe: "computer" },
     resolution: [1280, 800] as [number, number],
     lifecycle: { onTimeout: "pause" as const, autoResume: false },
   };
@@ -626,15 +626,15 @@ export class E2BSandboxProvider implements SandboxProvider {
     if (existing?.controlToken === controlToken) return existing.password;
     const password = randomBytes(6).toString("base64url");
     if (layout.isPrimary) {
-      const passwordFile = "/tmp/rakazo-control.vncpass";
-      const tokenFile = "/tmp/rakazo-control.token";
+      const passwordFile = "/tmp/troupe-control.vncpass";
+      const tokenFile = "/tmp/troupe-control.token";
       const command = [
         controlStreamStopCommand(),
         `printf %s ${shellQuote(controlToken)} > ${tokenFile}`,
         `x11vnc -storepasswd ${shellQuote(password)} ${passwordFile} >/dev/null`,
-        `x11vnc -bg -display ${shellQuote(desktop.display)} -forever -wait 50 -shared -rfbport ${layout.controlVncPort} -rfbauth ${passwordFile} 2>/tmp/rakazo-control-x11vnc.log`,
+        `x11vnc -bg -display ${shellQuote(desktop.display)} -forever -wait 50 -shared -rfbport ${layout.controlVncPort} -rfbauth ${passwordFile} 2>/tmp/troupe-control-x11vnc.log`,
         "cd /opt/noVNC/utils",
-        `(nohup ./novnc_proxy --vnc localhost:${layout.controlVncPort} --listen ${layout.controlPort} --web /opt/noVNC >/tmp/rakazo-control-novnc.log 2>&1 &)`,
+        `(nohup ./novnc_proxy --vnc localhost:${layout.controlVncPort} --listen ${layout.controlPort} --web /opt/noVNC >/tmp/troupe-control-novnc.log 2>&1 &)`,
         `for i in $(seq 1 50); do netstat -tuln | grep -q ':${layout.controlPort} ' && exit 0; sleep 0.1; done`,
         "exit 1",
       ].join(" && ");
@@ -678,11 +678,11 @@ function controlStreamStopCommand(controlToken?: string) {
   const stop = [
     "pkill -f '^x11vnc .* -rfbport 5901' || true",
     "pkill -f '^/usr/bin/python3 .*websockify.*6081' || true",
-    "rm -f /tmp/rakazo-control.vncpass",
-    "rm -f /tmp/rakazo-control.token",
+    "rm -f /tmp/troupe-control.vncpass",
+    "rm -f /tmp/troupe-control.token",
   ].join("; ");
   if (!controlToken) return stop;
-  return `[ -f /tmp/rakazo-control.token ] && [ "$(cat /tmp/rakazo-control.token)" != ${shellQuote(controlToken)} ] || { ${stop}; }`;
+  return `[ -f /tmp/troupe-control.token ] && [ "$(cat /tmp/troupe-control.token)" != ${shellQuote(controlToken)} ] || { ${stop}; }`;
 }
 
 async function observeE2BDesktop(
@@ -852,7 +852,7 @@ function e2bCwd(cwd: string | undefined): string {
     !cwd ||
     cwd === "." ||
     cwd === "/" ||
-    cwd === "/home/rakazo" ||
+    cwd === "/home/troupe" ||
     cwd === "/home/user" ||
     cwd === E2B_WORKSPACE
   ) {
@@ -860,8 +860,8 @@ function e2bCwd(cwd: string | undefined): string {
   }
   const relative = cwd.startsWith(`${E2B_WORKSPACE}/`)
     ? cwd.slice(E2B_WORKSPACE.length + 1)
-    : cwd.startsWith("/home/rakazo/")
-      ? cwd.slice("/home/rakazo/".length)
+    : cwd.startsWith("/home/troupe/")
+      ? cwd.slice("/home/troupe/".length)
       : cwd;
   return workspacePath(E2B_WORKSPACE, relative);
 }

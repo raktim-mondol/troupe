@@ -1,12 +1,12 @@
-import { type JobPublisher, runContinueJob } from "@rakazo/adapter-kit";
-import { toComputerRef } from "@rakazo/adapters";
+import { type JobPublisher, runContinueJob } from "@troupe/adapter-kit";
+import { toComputerRef } from "@troupe/adapters";
 import {
   type Actor,
   GROUP_MEMBER_MIN,
   type GroupMember,
   type ThreadSnapshot,
-} from "@rakazo/contracts";
-import { ACTIVE_RUN_STATUSES, projectMessages, resolveGroupTargetBotIds } from "@rakazo/core";
+} from "@troupe/contracts";
+import { ACTIVE_RUN_STATUSES, projectMessages, resolveGroupTargetBotIds } from "@troupe/core";
 import {
   appendEventInTransaction,
   createGroupRepos,
@@ -18,7 +18,7 @@ import {
   type PrismaClient,
   type ThreadEvents,
   touchGroupUpdatedAt,
-} from "@rakazo/db";
+} from "@troupe/db";
 import {
   buildSendPrompt,
   buildUserMessageBlocks,
@@ -512,7 +512,7 @@ export async function sendThreadMessage(
 export async function stopThreadRuns(
   deps: {
     prisma: PrismaClient;
-    sandbox: import("@rakazo/adapter-kit").SandboxProvider;
+    sandbox: import("@troupe/adapter-kit").SandboxProvider;
   },
   actor: Actor,
   target: ThreadTarget,

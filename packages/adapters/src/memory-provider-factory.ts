@@ -1,5 +1,5 @@
-import type { DurableMemoryScope, SemanticMemoryProvider } from "@rakazo/adapter-kit";
-import type { PrismaClient } from "@rakazo/db";
+import type { DurableMemoryScope, SemanticMemoryProvider } from "@troupe/adapter-kit";
+import type { PrismaClient } from "@troupe/db";
 import type { EncryptedSecretStore } from "./secrets.js";
 import {
   createSupermemoryProvider,

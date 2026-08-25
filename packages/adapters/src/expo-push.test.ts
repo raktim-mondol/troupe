@@ -53,7 +53,7 @@ describe("expo push tickets", () => {
 
 describe("expo push", () => {
   it("does not call Expo when the user has no token", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-push-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-push-"));
     dirs.push(dataDir);
     const fetchMock = vi.fn();
     vi.stubGlobal("fetch", fetchMock);
@@ -72,7 +72,7 @@ describe("expo push", () => {
   });
 
   it("posts to Expo when a token is registered", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-push-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-push-"));
     dirs.push(dataDir);
     await savePushToken(dataDir, "user-1", "ExponentPushToken[test]");
     const fetchMock = vi
@@ -98,7 +98,7 @@ describe("expo push", () => {
   });
 
   it("throws when Expo rejects the request", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-push-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-push-"));
     dirs.push(dataDir);
     await savePushToken(dataDir, "user-1", "ExponentPushToken[test]");
     vi.stubGlobal(
@@ -115,7 +115,7 @@ describe("expo push", () => {
   });
 
   it("throws when the Expo request never reaches the network", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-push-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-push-"));
     dirs.push(dataDir);
     await savePushToken(dataDir, "user-1", "ExponentPushToken[test]");
     vi.stubGlobal("fetch", vi.fn().mockRejectedValue(new Error("offline")));
@@ -129,7 +129,7 @@ describe("expo push", () => {
   });
 
   it("reports DeviceNotRegistered without deleting a stored or replacement token", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-push-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-push-"));
     dirs.push(dataDir);
     await savePushToken(dataDir, "user-1", "ExponentPushToken[old]");
     vi.stubGlobal(

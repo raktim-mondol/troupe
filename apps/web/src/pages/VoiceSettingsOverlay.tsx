@@ -1,5 +1,5 @@
-import type { VoiceCatalogEntry, VoiceCredential, VoiceInfo, VoiceStatus } from "@rakazo/contracts";
-import { Button } from "@rakazo/ui-web";
+import type { VoiceCatalogEntry, VoiceCredential, VoiceInfo, VoiceStatus } from "@troupe/contracts";
+import { Button } from "@troupe/ui-web";
 import { useEffect, useMemo, useState } from "react";
 import { rpc } from "../lib/rpc";
 

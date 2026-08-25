@@ -1,7 +1,7 @@
 import { readFileSync } from "node:fs";
 import path from "node:path";
 import vm from "node:vm";
-import type { RakazoDesktop } from "@rakazo/contracts";
+import type { TroupeDesktop } from "@troupe/contracts";
 import { describe, expect, it, vi } from "vitest";
 
 describe("desktop preload bridge", () => {
@@ -19,8 +19,8 @@ describe("desktop preload bridge", () => {
     });
 
     expect(exposeInMainWorld).toHaveBeenCalledTimes(1);
-    const [globalName, bridge] = exposeInMainWorld.mock.calls[0] as [string, RakazoDesktop];
-    expect(globalName).toBe("rakazoDesktop");
+    const [globalName, bridge] = exposeInMainWorld.mock.calls[0] as [string, TroupeDesktop];
+    expect(globalName).toBe("troupeDesktop");
     expect(bridge.platform).toBe("linux");
     expect(Object.keys(bridge.window).sort()).toEqual([
       "close",

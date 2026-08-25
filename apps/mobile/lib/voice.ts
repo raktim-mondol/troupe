@@ -15,7 +15,7 @@ export async function speakUtterance(
     method: "POST",
     headers: {
       "content-type": "application/json",
-      origin: "rakazo://",
+      origin: "troupe://",
       ...(await authHeaders()),
     },
     body: JSON.stringify({ text, voiceId: opts.voiceId, botId: opts.botId }),
@@ -58,7 +58,7 @@ async function playWithNativeAudio(bytes: Uint8Array): Promise<void> {
     interruptionMode: "mixWithOthers",
     shouldPlayInBackground: false,
   });
-  const file = new File(Paths.cache, `rakazo-voice-${Date.now()}.mp3`);
+  const file = new File(Paths.cache, `troupe-voice-${Date.now()}.mp3`);
   file.create({ overwrite: true });
   file.write(bytesToBase64(bytes), { encoding: "base64" });
   const player = createAudioPlayer({ uri: file.uri });

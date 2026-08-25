@@ -13,7 +13,7 @@ import {
   runContinueJob,
   runJobKey,
   type SandboxProvider,
-} from "@rakazo/adapter-kit";
+} from "@troupe/adapter-kit";
 import {
   acquireComputerExecutionLease,
   applyTeachingDesktopInput,
@@ -57,8 +57,8 @@ import {
   toStringRecord,
   touchRunningComputer,
   verifyMcpInstall,
-} from "@rakazo/adapters";
-import type { Auth } from "@rakazo/auth";
+} from "@troupe/adapters";
+import type { Auth } from "@troupe/auth";
 import {
   type Actor,
   appContract,
@@ -66,14 +66,14 @@ import {
   type McpServer,
   type Me,
   OPENAI_COMPATIBLE_PROVIDER_ID,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import {
   ACTIVE_RUN_STATUSES,
   AttachmentValidationError,
   containsSecret,
   isOneShotRoutineCron,
   nextCronDate,
-} from "@rakazo/core";
+} from "@troupe/core";
 import {
   appendEventInTransaction,
   createGroupRepos,
@@ -91,7 +91,7 @@ import {
   parseComputerMode,
   type ThreadEvents,
   touchGroupUpdatedAt,
-} from "@rakazo/db";
+} from "@troupe/db";
 import { createOwnedArtifact, getOwnedArtifact, getWorkspaceArtifact } from "./artifacts.js";
 import { toComputerStatus } from "./computer-status.js";
 import { buildMcpUpdateMaterial } from "./mcp-material.js";

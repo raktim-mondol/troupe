@@ -1,5 +1,5 @@
-import type { ThreadMessage, ThreadMessagePage } from "@rakazo/contracts";
-import type { Prisma, PrismaClient } from "@rakazo/db";
+import type { ThreadMessage, ThreadMessagePage } from "@troupe/contracts";
+import type { Prisma, PrismaClient } from "@troupe/db";
 
 export async function loadMessagePage(
   prisma: PrismaClient,

@@ -6,7 +6,7 @@ import type {
   SemanticMemoryResponse,
   SemanticMemoryResult,
   SemanticMemorySaveRequest,
-} from "@rakazo/adapter-kit";
+} from "@troupe/adapter-kit";
 import {
   deleteSupermemoryContainer,
   probeSupermemory,
@@ -85,12 +85,12 @@ function durableContainerTags(
   botId: string,
   workspaceId: string,
 ): string[] {
-  const isolated = `rakazo:${botId}`;
-  return scope === "shared" ? [`rakazo:workspace:${workspaceId}`, isolated] : [isolated];
+  const isolated = `troupe:${botId}`;
+  return scope === "shared" ? [`troupe:workspace:${workspaceId}`, isolated] : [isolated];
 }
 
 function historyContainerTag(botId: string, generation: number): string {
-  return `rakazo:${botId}:history:${generation}`;
+  return `troupe:${botId}:history:${generation}`;
 }
 
 function recallContainerTags(request: SemanticMemoryRecallRequest, workspaceId: string): string[] {

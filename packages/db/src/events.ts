@@ -1,10 +1,10 @@
-import type { RealtimeFanout } from "@rakazo/adapter-kit";
+import type { RealtimeFanout } from "@troupe/adapter-kit";
 import {
   type MessageBlock,
   MessageBlock as MessageBlockSchema,
   type ProductEvent,
-} from "@rakazo/contracts";
-import { isApprovalAskBlock } from "@rakazo/core";
+} from "@troupe/contracts";
+import { isApprovalAskBlock } from "@troupe/core";
 import type { Prisma, PrismaClient } from "./client.js";
 import {
   assertRunCanWriteHistory,

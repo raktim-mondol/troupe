@@ -1,5 +1,5 @@
-import type { Bot, BotMcpServer, McpServer, McpTransport } from "@rakazo/contracts";
-import { deriveMcpSlug } from "@rakazo/core";
+import type { Bot, BotMcpServer, McpServer, McpTransport } from "@troupe/contracts";
+import { deriveMcpSlug } from "@troupe/core";
 import { useEffect, useState } from "react";
 import { connectMcpOauth, MCP_OAUTH_CHANNEL } from "../lib/mcp-connect";
 import { rpc } from "../lib/rpc";

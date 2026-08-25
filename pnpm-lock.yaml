@@ -39,25 +39,25 @@ importers:
       '@orpc/server':
         specifier: ^1.15.0
         version: 1.15.0(@opentelemetry/api@1.9.1)(crossws@0.3.5)(ws@8.21.3)
-      '@rakazo/adapter-kit':
+      '@troupe/adapter-kit':
         specifier: workspace:*
         version: link:../../packages/adapter-kit
-      '@rakazo/adapters':
+      '@troupe/adapters':
         specifier: workspace:*
         version: link:../../packages/adapters
-      '@rakazo/auth':
+      '@troupe/auth':
         specifier: workspace:*
         version: link:../../packages/auth
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@rakazo/db':
+      '@troupe/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@rakazo/memory':
+      '@troupe/memory':
         specifier: workspace:*
         version: link:../../packages/memory
       hono:
@@ -73,7 +73,7 @@ importers:
 
   apps/desktop:
     dependencies:
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
     devDependencies:
@@ -98,21 +98,21 @@ importers:
       '@expo/metro-runtime':
         specifier: ~57.0.13
         version: 57.0.13(@expo/log-box@57.0.3)(expo@57.0.16)(react-dom@19.2.3(react@19.2.3))(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
-      '@rakazo/chat-ui':
-        specifier: workspace:*
-        version: link:../../packages/chat-ui
-      '@rakazo/contracts':
-        specifier: workspace:*
-        version: link:../../packages/contracts
-      '@rakazo/core':
-        specifier: workspace:*
-        version: link:../../packages/core
       '@react-native-vector-icons/ionicons':
         specifier: 13.1.2
         version: 13.1.2(@expo/config-plugins@57.0.9(typescript@6.0.3))(@react-native/assets-registry@0.86.2)(expo-font@57.0.1)(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
       '@react-native-vector-icons/material-design-icons':
         specifier: 13.1.2
         version: 13.1.2(@expo/config-plugins@57.0.9(typescript@6.0.3))(@react-native/assets-registry@0.86.2)(expo-font@57.0.1)(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)
+      '@troupe/chat-ui':
+        specifier: workspace:*
+        version: link:../../packages/chat-ui
+      '@troupe/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@troupe/core':
+        specifier: workspace:*
+        version: link:../../packages/core
       expo:
         specifier: ~57.0.16
         version: 57.0.16(@babel/core@7.29.7)(@expo/dom-webview@57.0.1)(@expo/metro-runtime@57.0.13)(expo-router@57.0.16)(react-dom@19.2.3(react@19.2.3))(react-native-web@0.21.2(react-dom@19.2.3(react@19.2.3))(react@19.2.3))(react-native-webview@13.16.1(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3))(react-native-worklets@0.10.1(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3))(react-native@0.86.2(@babel/core@7.29.7)(@react-native/metro-config@0.86.2(@babel/core@7.29.7))(@types/react@19.2.18)(react@19.2.3))(react@19.2.3)(typescript@6.0.3)
@@ -216,19 +216,19 @@ importers:
       '@orpc/contract':
         specifier: ^1.15.0
         version: 1.15.0(@opentelemetry/api@1.9.1)
-      '@rakazo/chat-ui':
+      '@troupe/chat-ui':
         specifier: workspace:*
         version: link:../../packages/chat-ui
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../../packages/contracts
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@rakazo/ui-tokens':
+      '@troupe/ui-tokens':
         specifier: workspace:*
         version: link:../../packages/ui-tokens
-      '@rakazo/ui-web':
+      '@troupe/ui-web':
         specifier: workspace:*
         version: link:../../packages/ui-web
       better-auth:
@@ -283,19 +283,19 @@ importers:
 
   apps/worker:
     dependencies:
-      '@rakazo/adapter-kit':
+      '@troupe/adapter-kit':
         specifier: workspace:*
         version: link:../../packages/adapter-kit
-      '@rakazo/adapters':
+      '@troupe/adapters':
         specifier: workspace:*
         version: link:../../packages/adapters
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@rakazo/db':
+      '@troupe/db':
         specifier: workspace:*
         version: link:../../packages/db
-      '@rakazo/memory':
+      '@troupe/memory':
         specifier: workspace:*
         version: link:../../packages/memory
     devDependencies:
@@ -314,7 +314,7 @@ importers:
       '@astrojs/sitemap':
         specifier: 3.7.3
         version: 3.7.3
-      '@rakazo/ui-web':
+      '@troupe/ui-web':
         specifier: workspace:*
         version: link:../../packages/ui-web
       astro:
@@ -354,7 +354,7 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.1
         version: 1.19.17(hono@4.13.1)
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../../../packages/core
       dockerode:
@@ -382,7 +382,7 @@ importers:
 
   packages/adapter-kit:
     dependencies:
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../contracts
       zod:
@@ -422,16 +422,16 @@ importers:
       '@observablehq/plot':
         specifier: ^0.6.17
         version: 0.6.17
-      '@rakazo/adapter-kit':
+      '@troupe/adapter-kit':
         specifier: workspace:*
         version: link:../adapter-kit
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../core
-      '@rakazo/db':
+      '@troupe/db':
         specifier: workspace:*
         version: link:../db
       d3-dsv:
@@ -474,10 +474,10 @@ importers:
 
   packages/auth:
     dependencies:
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../core
-      '@rakazo/db':
+      '@troupe/db':
         specifier: workspace:*
         version: link:../db
       better-auth:
@@ -540,7 +540,7 @@ importers:
       '@observablehq/plot':
         specifier: ^0.6.17
         version: 0.6.17
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../contracts
       croner:
@@ -574,13 +574,13 @@ importers:
       '@prisma/client':
         specifier: ^7.9.1
         version: 7.9.1(prisma@7.9.1(@types/react-dom@19.2.4(@types/react@19.2.18))(@types/react@19.2.18)(magicast@0.5.4)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(typescript@5.9.3))(typescript@5.9.3)
-      '@rakazo/adapter-kit':
+      '@troupe/adapter-kit':
         specifier: workspace:*
         version: link:../adapter-kit
-      '@rakazo/contracts':
+      '@troupe/contracts':
         specifier: workspace:*
         version: link:../contracts
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../core
       dotenv:
@@ -605,10 +605,10 @@ importers:
 
   packages/memory:
     dependencies:
-      '@rakazo/adapter-kit':
+      '@troupe/adapter-kit':
         specifier: workspace:*
         version: link:../adapter-kit
-      '@rakazo/db':
+      '@troupe/db':
         specifier: workspace:*
         version: link:../db
     devDependencies:
@@ -624,24 +624,24 @@ importers:
       '@hono/node-server':
         specifier: ^1.19.1
         version: 1.19.17(hono@4.13.1)
-      '@rakazo/adapter-kit':
-        specifier: workspace:*
-        version: link:../adapter-kit
-      '@rakazo/adapters':
-        specifier: workspace:*
-        version: link:../adapters
-      '@rakazo/contracts':
-        specifier: workspace:*
-        version: link:../contracts
-      '@rakazo/core':
-        specifier: workspace:*
-        version: link:../core
-      '@rakazo/db':
-        specifier: workspace:*
-        version: link:../db
       '@testcontainers/postgresql':
         specifier: ^11.5.1
         version: 11.14.0
+      '@troupe/adapter-kit':
+        specifier: workspace:*
+        version: link:../adapter-kit
+      '@troupe/adapters':
+        specifier: workspace:*
+        version: link:../adapters
+      '@troupe/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@troupe/core':
+        specifier: workspace:*
+        version: link:../core
+      '@troupe/db':
+        specifier: workspace:*
+        version: link:../db
       pngjs:
         specifier: 7.0.0
         version: 7.0.0
@@ -673,10 +673,10 @@ importers:
       '@radix-ui/react-slot':
         specifier: ^1.2.3
         version: 1.3.3(@types/react@19.2.18)(react@19.2.3)
-      '@rakazo/core':
+      '@troupe/core':
         specifier: workspace:*
         version: link:../core
-      '@rakazo/ui-tokens':
+      '@troupe/ui-tokens':
         specifier: workspace:*
         version: link:../ui-tokens
       class-variance-authority:

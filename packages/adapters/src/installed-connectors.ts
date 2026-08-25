@@ -4,8 +4,8 @@ import type {
   ConnectorEvent,
   ConnectorProvider,
   ConnectorTool,
-} from "@rakazo/adapter-kit";
-import type { PrismaClient } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import type { PrismaClient } from "@troupe/db";
 import { z } from "zod";
 import {
   combineSignals,

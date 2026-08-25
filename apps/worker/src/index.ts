@@ -1,5 +1,5 @@
-import type { JobPublisher, JobWorkerHost } from "@rakazo/adapter-kit";
-import { loadRootEnv } from "@rakazo/core/node/load-root-env";
+import type { JobPublisher, JobWorkerHost } from "@troupe/adapter-kit";
+import { loadRootEnv } from "@troupe/core/node/load-root-env";
 
 loadRootEnv();
 
@@ -28,10 +28,10 @@ import {
   pipedreamConfigFromEnv,
   ScriptedAgentRuntime,
   WorkspaceMemoryProviderResolver,
-} from "@rakazo/adapters";
-import { resolveEncryptionKey } from "@rakazo/core";
-import { createDb, createThreadEvents } from "@rakazo/db";
-import { MarkdownMemoryStore } from "@rakazo/memory";
+} from "@troupe/adapters";
+import { resolveEncryptionKey } from "@troupe/core";
+import { createDb, createThreadEvents } from "@troupe/db";
+import { MarkdownMemoryStore } from "@troupe/memory";
 
 async function main() {
   const databaseUrl = process.env.DATABASE_URL;
@@ -151,7 +151,7 @@ async function main() {
   process.once("SIGTERM", () => void stop());
   process.once("SIGINT", () => void stop());
 
-  console.log("rakazo worker ready");
+  console.log("troupe worker ready");
 }
 
 main().catch((error) => {

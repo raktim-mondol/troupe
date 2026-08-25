@@ -1,6 +1,6 @@
 import { RPCHandler } from "@orpc/server/fetch";
-import type { Actor } from "@rakazo/contracts";
-import type { PrismaClient } from "@rakazo/db";
+import type { Actor } from "@troupe/contracts";
+import type { PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { createRouter, type RouterDeps } from "./router.js";
 
@@ -29,12 +29,12 @@ describe("thread answer delivery", () => {
         screenProxySecret: "fake-test-secret",
         sandboxProvider: "fake",
       },
-      dataDir: "/tmp/rakazo-router-test",
+      dataDir: "/tmp/troupe-router-test",
     } as unknown as RouterDeps;
     const actor = {
       workspaceId: "workspace-1",
       userId: "user-1",
-      email: "user@rakazo.test",
+      email: "user@troupe.test",
       isDeploymentOwner: true,
     } satisfies Actor;
     const handler = new RPCHandler(createRouter(deps));
@@ -92,12 +92,12 @@ describe("MCP server deletion", () => {
         screenProxySecret: "fake-test-secret",
         sandboxProvider: "fake",
       },
-      dataDir: "/tmp/rakazo-router-test",
+      dataDir: "/tmp/troupe-router-test",
     } as unknown as RouterDeps;
     const actor = {
       workspaceId: "workspace-1",
       userId: "user-1",
-      email: "user@rakazo.test",
+      email: "user@troupe.test",
       isDeploymentOwner: true,
     } satisfies Actor;
     const handler = new RPCHandler(createRouter(deps));

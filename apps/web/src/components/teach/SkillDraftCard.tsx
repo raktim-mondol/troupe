@@ -1,5 +1,5 @@
-import type { SkillPlaybook } from "@rakazo/contracts";
-import { formatSkillRunPrompt } from "@rakazo/core";
+import type { SkillPlaybook } from "@troupe/contracts";
+import { formatSkillRunPrompt } from "@troupe/core";
 import { useEffect, useState } from "react";
 import { rpc } from "../../lib/rpc";
 

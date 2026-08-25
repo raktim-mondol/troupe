@@ -116,18 +116,18 @@ function attachNovncProxy(server: ViteDevServer | PreviewServer, secret: string)
 export default defineConfig(({ mode }) => {
   const rootEnv = loadEnv(mode, path.resolve(import.meta.dirname, "../.."), "");
   const api = process.env.API_PROXY_TARGET ?? rootEnv.API_PROXY_TARGET ?? "http://127.0.0.1:3100";
-  const previewHost = process.env.RAKAZO_HOST ?? rootEnv.RAKAZO_HOST ?? "localhost";
+  const previewHost = process.env.TROUPE_HOST ?? rootEnv.TROUPE_HOST ?? "localhost";
   const screenProxySecret = resolveAuthSecret({
     ...process.env,
     BETTER_AUTH_SECRET: process.env.BETTER_AUTH_SECRET ?? rootEnv.BETTER_AUTH_SECRET,
   });
-  const performanceAssetDelayMs = Number(process.env.RAKAZO_PERFORMANCE_ASSET_DELAY_MS ?? 0);
+  const performanceAssetDelayMs = Number(process.env.TROUPE_PERFORMANCE_ASSET_DELAY_MS ?? 0);
   return {
     plugins: [
       react(),
       tailwindcss(),
       {
-        name: "rakazo-performance-asset-delay",
+        name: "troupe-performance-asset-delay",
         configurePreviewServer(server) {
           if (!Number.isFinite(performanceAssetDelayMs) || performanceAssetDelayMs <= 0) return;
           server.middlewares.use((req, _res, next) => {
@@ -141,7 +141,7 @@ export default defineConfig(({ mode }) => {
         },
       },
       {
-        name: "rakazo-novnc-proxy",
+        name: "troupe-novnc-proxy",
         configureServer: (server) => attachNovncProxy(server, screenProxySecret),
         configurePreviewServer: (server) => attachNovncProxy(server, screenProxySecret),
       },

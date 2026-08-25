@@ -1,8 +1,8 @@
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import { ComposioEmulator } from "@rakazo/adapters";
-import type { appContract } from "@rakazo/contracts";
+import { ComposioEmulator } from "@troupe/adapters";
+import type { appContract } from "@troupe/contracts";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { sessionCookieHeader } from "./index.js";
 
@@ -28,7 +28,7 @@ describeWithDatabase("API authorization and resource isolation", () => {
   let handles: AppHandles;
   let app: App;
   const stamp = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-  const dataDir = mkdtempSync(path.join(tmpdir(), "rakazo-authz-"));
+  const dataDir = mkdtempSync(path.join(tmpdir(), "troupe-authz-"));
 
   beforeAll(async () => {
     const { createApp } = await import("../../../apps/api/src/app.ts");
@@ -175,10 +175,10 @@ describeWithDatabase("API authorization and resource isolation", () => {
   });
 
   it("prevents one user from reading or mutating another user's resources", async () => {
-    const owner = await signup(app, `owner-authz-${stamp}@rakazo.test`, "Authorization Owner");
+    const owner = await signup(app, `owner-authz-${stamp}@troupe.test`, "Authorization Owner");
     const intruder = await signup(
       app,
-      `intruder-authz-${stamp}@rakazo.test`,
+      `intruder-authz-${stamp}@troupe.test`,
       "Authorization Intruder",
     );
     const ownerActor = await rpc<Actor>(app, owner, "me");
@@ -422,8 +422,8 @@ describeWithDatabase("API authorization and resource isolation", () => {
   });
 
   it("keeps approval rules private to each user in a shared workspace", async () => {
-    const owner = await signup(app, `approval-owner-${stamp}@rakazo.test`, "Approval Owner");
-    const member = await signup(app, `approval-member-${stamp}@rakazo.test`, "Approval Member");
+    const owner = await signup(app, `approval-owner-${stamp}@troupe.test`, "Approval Owner");
+    const member = await signup(app, `approval-member-${stamp}@troupe.test`, "Approval Member");
     const ownerActor = await rpc<Actor>(app, owner, "me");
     const memberActor = await rpc<Actor>(app, member, "me");
 
@@ -464,7 +464,7 @@ describeWithDatabase("API authorization and resource isolation", () => {
   });
 
   it("isolates model defaults by workspace and switches them atomically", async () => {
-    const cookie = await signup(app, `model-defaults-${stamp}@rakazo.test`, "Model Defaults");
+    const cookie = await signup(app, `model-defaults-${stamp}@troupe.test`, "Model Defaults");
     const actor = await rpc<Actor>(app, cookie, "me");
     const otherWorkspaceId = `other-model-workspace-${stamp}`;
     const otherSecret = await handles.prisma.secret.create({
@@ -577,7 +577,7 @@ describeWithDatabase("API authorization and resource isolation", () => {
   });
 
   it("chooses the newest duplicate provider credential when selecting a default", async () => {
-    const cookie = await signup(app, `model-duplicates-${stamp}@rakazo.test`, "Model Duplicates");
+    const cookie = await signup(app, `model-duplicates-${stamp}@troupe.test`, "Model Duplicates");
     const actor = await rpc<Actor>(app, cookie, "me");
     const olderSecret = await handles.prisma.secret.create({
       data: {
@@ -649,8 +649,8 @@ describeWithDatabase("API authorization and resource isolation", () => {
   });
 
   it("restricts deployment settings to the deployment owner", async () => {
-    const owner = await signup(app, `deployment-owner-${stamp}@rakazo.test`, "Deployment Owner");
-    const other = await signup(app, `deployment-other-${stamp}@rakazo.test`, "Deployment Other");
+    const owner = await signup(app, `deployment-owner-${stamp}@troupe.test`, "Deployment Owner");
+    const other = await signup(app, `deployment-other-${stamp}@troupe.test`, "Deployment Other");
     const ownerActor = await rpc<Actor>(app, owner, "me");
     const otherActor = await rpc<Actor>(app, other, "me");
     await handles.prisma.deploymentSettings.update({

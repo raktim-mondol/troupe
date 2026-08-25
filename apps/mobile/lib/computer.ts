@@ -1,4 +1,4 @@
-import type { ComputerMode } from "@rakazo/contracts";
+import type { ComputerMode } from "@troupe/contracts";
 
 export const COMPUTER_HEARTBEAT_MS = 60_000;
 export const SCREEN_URL_OPEN_ATTEMPTS = 5;

@@ -3,8 +3,8 @@ import type {
   AgentRuntime,
   JobPublisher,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
-import type { PrismaClient, ThreadEvents } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import type { PrismaClient, ThreadEvents } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { createBackgroundJobHandlers } from "./background-job-handlers.js";
 import { createRunExecutor } from "./executor.js";

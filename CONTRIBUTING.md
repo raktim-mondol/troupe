@@ -1,6 +1,6 @@
-# Contributing to Rakazo
+# Contributing to Troupe
 
-Thanks for helping improve Rakazo. Keep changes focused and testable.
+Thanks for helping improve Troupe. Keep changes focused and testable.
 
 ## Run locally
 
@@ -56,6 +56,6 @@ capability config, fixtures, logs, or snapshots; use the encrypted secret store 
 
 | Address | Use for |
 | --- | --- |
-| [security@rakazo.com](mailto:security@rakazo.com) | Vulnerabilities only — see [SECURITY.md](SECURITY.md) |
-| [support@rakazo.com](mailto:support@rakazo.com) | User and support questions |
-| [elie@rakazo.com](mailto:elie@rakazo.com) | Maintainer |
+| [security@troupe.com](mailto:security@troupe.com) | Vulnerabilities only — see [SECURITY.md](SECURITY.md) |
+| [support@troupe.com](mailto:support@troupe.com) | User and support questions |
+| [elie@troupe.com](mailto:elie@troupe.com) | Maintainer |

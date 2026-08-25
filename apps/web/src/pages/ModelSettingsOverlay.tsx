@@ -1,11 +1,11 @@
-import type { Me } from "@rakazo/contracts";
+import type { Me } from "@troupe/contracts";
 import {
   OPENAI_COMPATIBLE_BASE_URL_HINT,
   OPENAI_COMPATIBLE_PROVIDER_ID,
   openAiCompatibleConnectReady,
   openAiCompatibleProbeSuccessMessage,
-} from "@rakazo/contracts";
-import { Button } from "@rakazo/ui-web";
+} from "@troupe/contracts";
+import { Button } from "@troupe/ui-web";
 import { ChevronDown } from "lucide-react";
 import {
   type KeyboardEvent as ReactKeyboardEvent,
@@ -381,7 +381,7 @@ export function ModelSettingsOverlay({ onClose }: { onClose: () => void }) {
           <div>
             <div className="text-2xl font-medium text-[#F1F1F2]">Models</div>
             <p className="mt-1 text-[13.5px] text-[#7A7A80]">
-              {loading ? "Loading model catalog…" : "Choose which connected model Rakazo uses."}
+              {loading ? "Loading model catalog…" : "Choose which connected model Troupe uses."}
             </p>
           </div>
           <button
@@ -712,7 +712,7 @@ export function ModelSettingsOverlay({ onClose }: { onClose: () => void }) {
 
                 {selected.auth === "oauth" && !subscriptionSignIn ? (
                   <p className="mt-5 text-sm leading-[1.5] text-[#85858A]">
-                    This subscription sign-in is not available in Rakazo yet. Use a deployment
+                    This subscription sign-in is not available in Troupe yet. Use a deployment
                     credential or choose another provider.
                   </p>
                 ) : null}

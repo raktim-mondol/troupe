@@ -2,26 +2,26 @@ services:
   postgres:
     image: postgres:16-alpine
     environment:
-      POSTGRES_USER: rakazo
+      POSTGRES_USER: troupe
       POSTGRES_PASSWORD: topology-only-password
-      POSTGRES_DB: rakazo
+      POSTGRES_DB: troupe
     volumes:
       - pgdata:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U rakazo -d rakazo"]
+      test: ["CMD-SHELL", "pg_isready -U troupe -d troupe"]
       interval: 2s
       timeout: 5s
       retries: 30
 
   computer-image:
-    image: ${TOPOLOGY_COMPUTER_IMAGE:-rakazo/computer:topology}
+    image: ${TOPOLOGY_COMPUTER_IMAGE:-troupe/computer:topology}
     build:
       context: ../sandboxes/computer
     command: ["true"]
     restart: "no"
 
   app-image:
-    image: ${TOPOLOGY_APP_IMAGE:-rakazo/app:topology}
+    image: ${TOPOLOGY_APP_IMAGE:-troupe/app:topology}
     build:
       context: ../..
       dockerfile: infra/compose/Dockerfile.topology
@@ -29,8 +29,8 @@ services:
     restart: "no"
 
   supervisor:
-    image: ${TOPOLOGY_APP_IMAGE:-rakazo/app:topology}
-    command: ["pnpm", "--filter", "@rakazo/sandbox-supervisor", "start"]
+    image: ${TOPOLOGY_APP_IMAGE:-troupe/app:topology}
+    command: ["pnpm", "--filter", "@troupe/sandbox-supervisor", "start"]
     user: root
     environment:
       NODE_ENV: production
@@ -39,7 +39,7 @@ services:
       SUPERVISOR_PORT: "7091"
       SANDBOX_SUPERVISOR_TOKEN: topology-only-supervisor-token
       DOCKER_SOCKET: /var/run/docker.sock
-      RAKAZO_COMPUTER_IMAGE: ${TOPOLOGY_COMPUTER_IMAGE:-rakazo/computer:topology}
+      TROUPE_COMPUTER_IMAGE: ${TOPOLOGY_COMPUTER_IMAGE:-troupe/computer:topology}
       SANDBOX_SCREEN_NETWORK: internal
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
@@ -60,14 +60,14 @@ services:
       retries: 30
 
   api:
-    image: ${TOPOLOGY_APP_IMAGE:-rakazo/app:topology}
+    image: ${TOPOLOGY_APP_IMAGE:-troupe/app:topology}
     command:
       - bash
       - -lc
-      - pnpm --filter @rakazo/db exec prisma migrate deploy && pnpm --filter @rakazo/api start
+      - pnpm --filter @troupe/db exec prisma migrate deploy && pnpm --filter @troupe/api start
     environment: &app-environment
       NODE_ENV: production
-      DATABASE_URL: postgres://rakazo:topology-only-password@postgres:5432/rakazo
+      DATABASE_URL: postgres://troupe:topology-only-password@postgres:5432/troupe
       DATA_DIR: /data
       BETTER_AUTH_SECRET: topology-only-auth-secret-at-least-32-characters
       BETTER_AUTH_URL: http://127.0.0.1:${TOPOLOGY_API_PORT:-3199}
@@ -102,8 +102,8 @@ services:
       retries: 45
 
   worker:
-    image: ${TOPOLOGY_APP_IMAGE:-rakazo/app:topology}
-    command: ["pnpm", "--filter", "@rakazo/worker", "start"]
+    image: ${TOPOLOGY_APP_IMAGE:-troupe/app:topology}
+    command: ["pnpm", "--filter", "@troupe/worker", "start"]
     environment: *app-environment
     volumes:
       - appdata:/data

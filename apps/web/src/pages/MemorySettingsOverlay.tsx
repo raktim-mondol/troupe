@@ -1,5 +1,5 @@
-import type { WorkspaceMemoryConfig } from "@rakazo/contracts";
-import { Button } from "@rakazo/ui-web";
+import type { WorkspaceMemoryConfig } from "@troupe/contracts";
+import { Button } from "@troupe/ui-web";
 import { useEffect, useState } from "react";
 import { rpc } from "../lib/rpc";
 import {

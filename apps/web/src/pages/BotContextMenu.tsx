@@ -1,4 +1,4 @@
-import type { Bot, BotSection } from "@rakazo/contracts";
+import type { Bot, BotSection } from "@troupe/contracts";
 import { type ReactNode, type Ref, useEffect, useRef, useState } from "react";
 
 export type ContextMenuPosition = { x: number; y: number };

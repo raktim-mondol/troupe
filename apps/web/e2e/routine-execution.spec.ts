@@ -3,7 +3,7 @@ import { captureScreenshot, completeOnboarding, signup } from "./helpers";
 
 test("routine run-now completes and survives reload", async ({ page }, testInfo) => {
   const stamp = Date.now();
-  await signup(page, `routine-${stamp}@rakazo.test`, "password12", "Routine");
+  await signup(page, `routine-${stamp}@troupe.test`, "password12", "Routine");
   await completeOnboarding(page);
 
   await page.getByTitle("Agent computer").click();

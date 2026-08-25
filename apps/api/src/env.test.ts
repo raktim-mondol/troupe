@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { loadEnv } from "./env.js";
 
 const base = {
-  DATABASE_URL: "postgres://rakazo:rakazo@127.0.0.1:5433/rakazo",
+  DATABASE_URL: "postgres://troupe:troupe@127.0.0.1:5433/troupe",
   NODE_ENV: "test",
 };
 
@@ -90,6 +90,6 @@ describe("loadEnv", () => {
   it("exposes a deployed git revision when GIT_SHA is set", () => {
     expect(loadEnv(base).gitSha).toBeUndefined();
     expect(loadEnv({ ...base, GIT_SHA: "  3c6e209  " }).gitSha).toBe("3c6e209");
-    expect(loadEnv({ ...base, RAKAZO_GIT_SHA: "abc1234" }).gitSha).toBe("abc1234");
+    expect(loadEnv({ ...base, TROUPE_GIT_SHA: "abc1234" }).gitSha).toBe("abc1234");
   });
 });

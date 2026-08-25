@@ -1,6 +1,6 @@
-import type { Actor, MessageBlock, SearchHit } from "@rakazo/contracts";
-import { extractLinksFromText, matchesSearchQuery, snippetAroundMatch } from "@rakazo/core";
-import type { Prisma, PrismaClient } from "@rakazo/db";
+import type { Actor, MessageBlock, SearchHit } from "@troupe/contracts";
+import { extractLinksFromText, matchesSearchQuery, snippetAroundMatch } from "@troupe/core";
+import type { Prisma, PrismaClient } from "@troupe/db";
 
 const SEARCH_LIMIT = 25;
 

@@ -1,5 +1,5 @@
-import type { CapabilityInstall, Connection, ConnectionCatalogItem } from "@rakazo/contracts";
-import { abortableDelay } from "@rakazo/core";
+import type { CapabilityInstall, Connection, ConnectionCatalogItem } from "@troupe/contracts";
+import { abortableDelay } from "@troupe/core";
 import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,

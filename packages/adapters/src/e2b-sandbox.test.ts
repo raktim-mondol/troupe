@@ -63,12 +63,12 @@ describe("E2B computer backend", () => {
     const typeText = vi.fn(async () => undefined);
     const command = vi.fn(async (value: string, _options?: Record<string, unknown>) => {
       if (value.startsWith('test "$(readlink')) throw new Error("profiles are not configured");
-      if (value.includes("RAKAZO_SCREEN_INDEX=")) {
-        return { stdout: "RAKAZO_SCREEN_INDEX=0\n", stderr: "", exitCode: 0 };
+      if (value.includes("TROUPE_SCREEN_INDEX=")) {
+        return { stdout: "TROUPE_SCREEN_INDEX=0\n", stderr: "", exitCode: 0 };
       }
-      if (value.includes("RAKAZO_SCREEN_RELEASE=")) {
+      if (value.includes("TROUPE_SCREEN_RELEASE=")) {
         return {
-          stdout: "RAKAZO_SCREEN_RELEASE=0\n",
+          stdout: "TROUPE_SCREEN_RELEASE=0\n",
           stderr: "",
           exitCode: 0,
         };
@@ -290,7 +290,7 @@ describe("E2B computer backend", () => {
     const screenSlots = new Map<string, number>();
     const command = vi.fn(async (value: string) => {
       const screenKey = value.match(/slot="\$dir\/([a-f0-9]+)\.slot"/)?.[1];
-      if (screenKey && value.includes("RAKAZO_SCREEN_INDEX=")) {
+      if (screenKey && value.includes("TROUPE_SCREEN_INDEX=")) {
         let index = screenSlots.get(screenKey);
         if (index === undefined) {
           index = Array.from({ length: 8 }, (_, candidate) => candidate).find(
@@ -300,31 +300,31 @@ describe("E2B computer backend", () => {
           screenSlots.set(screenKey, index);
         }
         return {
-          stdout: `RAKAZO_SCREEN_INDEX=${index}\n`,
+          stdout: `TROUPE_SCREEN_INDEX=${index}\n`,
           stderr: "",
           exitCode: 0,
         };
       }
-      if (screenKey && value.includes("RAKAZO_SCREEN_RELEASE=")) {
+      if (screenKey && value.includes("TROUPE_SCREEN_RELEASE=")) {
         const index = screenSlots.get(screenKey);
         if (index === undefined) {
           return {
-            stdout: "RAKAZO_SCREEN_RELEASE=missing\n",
+            stdout: "TROUPE_SCREEN_RELEASE=missing\n",
             stderr: "",
             exitCode: 0,
           };
         }
         screenSlots.delete(screenKey);
         return {
-          stdout: `RAKAZO_SCREEN_RELEASE=${index}\n`,
+          stdout: `TROUPE_SCREEN_RELEASE=${index}\n`,
           stderr: "",
           exitCode: 0,
         };
       }
       if (value.includes("command -v Xvfb")) return { stdout: "", stderr: "", exitCode: 0 };
-      if (value.includes("RAKAZO_SCREEN_PASSWORD=")) {
+      if (value.includes("TROUPE_SCREEN_PASSWORD=")) {
         return {
-          stdout: "RAKAZO_SCREEN_PASSWORD=test-view-password\n",
+          stdout: "TROUPE_SCREEN_PASSWORD=test-view-password\n",
           stderr: "",
           exitCode: 0,
         };

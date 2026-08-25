@@ -1,5 +1,5 @@
-import type { TaughtSkill } from "@rakazo/contracts";
-import { Button } from "@rakazo/ui-web";
+import type { TaughtSkill } from "@troupe/contracts";
+import { Button } from "@troupe/ui-web";
 import { useEffect, useState } from "react";
 
 export function formatRemaining(expiresAt: string | null): string {

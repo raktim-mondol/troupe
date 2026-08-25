@@ -1,5 +1,5 @@
 {
-  "name": "@rakazo/mobile",
+  "name": "@troupe/mobile",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "main": "expo-router/entry",
@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@expo/metro-runtime": "~57.0.13",
-    "@rakazo/chat-ui": "workspace:*",
-    "@rakazo/contracts": "workspace:*",
-    "@rakazo/core": "workspace:*",
+    "@troupe/chat-ui": "workspace:*",
+    "@troupe/contracts": "workspace:*",
+    "@troupe/core": "workspace:*",
     "@react-native-vector-icons/ionicons": "13.1.2",
     "@react-native-vector-icons/material-design-icons": "13.1.2",
     "expo": "~57.0.16",

@@ -1,4 +1,4 @@
-import type { ComputerMode } from "@rakazo/contracts";
+import type { ComputerMode } from "@troupe/contracts";
 import { Pressable, Text, View } from "react-native";
 
 export function ComputerModePicker({

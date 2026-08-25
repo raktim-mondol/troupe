@@ -4,7 +4,7 @@ import type {
   ThreadMessage,
   ThreadMessagePage,
   ThreadSnapshot,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import {
   isRunTerminalEvent,
   mergeThreadHistory,
@@ -12,7 +12,7 @@ import {
   progressMessageId,
   reduceLiveMessageBlocks,
   subagentBlockFromPayload,
-} from "@rakazo/core";
+} from "@troupe/core";
 
 function takeLiveMessage(
   messages: readonly ThreadMessage[],

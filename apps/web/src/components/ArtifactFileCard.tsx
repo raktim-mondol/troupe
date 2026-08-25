@@ -1,4 +1,4 @@
-import { ChatMarkdown } from "@rakazo/chat-ui/web";
+import { ChatMarkdown } from "@troupe/chat-ui/web";
 import { Download, FileText, X } from "lucide-react";
 import { useEffect, useId, useRef, useState } from "react";
 import {

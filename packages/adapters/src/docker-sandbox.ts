@@ -13,8 +13,8 @@ import type {
   SandboxProvider,
   ScreenRequest,
   ScreenSession,
-} from "@rakazo/adapter-kit";
-import { boundedSandboxCommandTimeoutMs, resolveSupervisorToken } from "@rakazo/core";
+} from "@troupe/adapter-kit";
+import { boundedSandboxCommandTimeoutMs, resolveSupervisorToken } from "@troupe/core";
 import {
   boundedComputerActions,
   clampRounded,
@@ -55,10 +55,10 @@ export class DockerSandboxProvider implements SandboxProvider {
   private headers(context: AdapterContext, botId?: string) {
     return {
       authorization: `Bearer ${this.supervisorToken}`,
-      "x-rakazo-workspace-id": context.workspaceId,
-      ...(botId ? { "x-rakazo-bot-id": botId } : {}),
-      ...(context.botId ? { "x-rakazo-screen-id": context.botId } : {}),
-      ...(context.screenLeaseId ? { "x-rakazo-screen-lease-id": context.screenLeaseId } : {}),
+      "x-troupe-workspace-id": context.workspaceId,
+      ...(botId ? { "x-troupe-bot-id": botId } : {}),
+      ...(context.botId ? { "x-troupe-screen-id": context.botId } : {}),
+      ...(context.screenLeaseId ? { "x-troupe-screen-lease-id": context.screenLeaseId } : {}),
     };
   }
 
@@ -372,9 +372,9 @@ export class DockerSandboxProvider implements SandboxProvider {
 }
 
 function dockerCwd(cwd: string | undefined) {
-  if (!cwd || cwd === "." || cwd === "/" || cwd === "/home/rakazo") return "/home/rakazo";
-  const relative = cwd.startsWith("/home/rakazo/")
-    ? cwd.slice("/home/rakazo/".length)
+  if (!cwd || cwd === "." || cwd === "/" || cwd === "/home/troupe") return "/home/troupe";
+  const relative = cwd.startsWith("/home/troupe/")
+    ? cwd.slice("/home/troupe/".length)
     : normalizeWorkspacePath(cwd);
-  return path.posix.join("/home/rakazo", relative);
+  return path.posix.join("/home/troupe", relative);
 }

@@ -3,7 +3,7 @@ import type {
   ConnectorCall,
   ConnectorEvent,
   ConnectorTool,
-} from "@rakazo/adapter-kit";
+} from "@troupe/adapter-kit";
 import {
   type ComposioCatalogItem,
   type ComposioProvider,

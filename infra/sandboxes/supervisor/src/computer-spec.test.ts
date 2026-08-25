@@ -13,22 +13,22 @@ import {
 describe("graphical computer spec", () => {
   it("creates a VNC desktop, not an alpine sleep fallback", () => {
     const options = containerCreateOptions({
-      name: "rakazo-bot-abc",
+      name: "troupe-bot-abc",
       image: COMPUTER_IMAGE,
       botId: "abc",
       workspaceId: "ws",
-      homePath: "/var/rakazo/homes/abc",
-      networkMode: "rakazo_default",
+      homePath: "/var/troupe/homes/abc",
+      networkMode: "troupe_default",
     });
-    expect(options.Image).toBe("rakazo/computer:local");
+    expect(options.Image).toBe("troupe/computer:local");
     expect(options.Image).not.toMatch(/alpine/);
     expect(options).not.toHaveProperty("Entrypoint");
     expect(JSON.stringify(options)).not.toMatch(/sleep/);
-    expect(options.HostConfig.Binds).toEqual(["/var/rakazo/homes/abc:/home/rakazo"]);
+    expect(options.HostConfig.Binds).toEqual(["/var/troupe/homes/abc:/home/troupe"]);
     expect(options.Env).toContain(
-      "PATH=/home/rakazo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "PATH=/home/troupe/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
     );
-    expect(options.Env).toContain("NPM_CONFIG_PREFIX=/home/rakazo/.local");
+    expect(options.Env).toContain("NPM_CONFIG_PREFIX=/home/troupe/.local");
     expect(options.ExposedPorts).toEqual({
       "6080/tcp": {},
       "6081/tcp": {},
@@ -54,23 +54,23 @@ describe("graphical computer spec", () => {
     expect(screenPorts(1)).toMatchObject({ display: ":2", viewPort: "6082", controlPort: "6083" });
     expect(options.HostConfig.ShmSize).toBeGreaterThanOrEqual(256 * 1024 * 1024);
     expect(options.HostConfig.ReadonlyPaths).toContain("/usr/share/novnc");
-    expect(options.HostConfig.NetworkMode).toBe("rakazo_default");
+    expect(options.HostConfig.NetworkMode).toBe("troupe_default");
   });
 
   it("ships a browser desktop, not a fullscreen terminal", () => {
     const root = path.resolve(import.meta.dirname, "../../computer");
     const dockerfile = readFileSync(path.join(root, "Dockerfile"), "utf8");
     const start = readFileSync(path.join(root, "start.sh"), "utf8");
-    const browser = readFileSync(path.join(root, "rakazo-browser"), "utf8");
+    const browser = readFileSync(path.join(root, "troupe-browser"), "utf8");
     expect(dockerfile).toMatch(/chromium/);
-    expect(start).toMatch(/rakazo-browser/);
+    expect(start).toMatch(/troupe-browser/);
     expect(start).toMatch(/x11vnc .* -viewonly /);
     expect(browser).toMatch(/\.browser-profiles\/chromium/);
     expect(start).not.toMatch(/windowsize 1280 800/);
   });
 
   it("keeps container names stable so a bot can resume", () => {
-    expect(containerNameFor("bot_1")).toBe("rakazo-bot-bot_1");
+    expect(containerNameFor("bot_1")).toBe("troupe-bot-bot_1");
     expect(containerNameFor("bot_1")).toBe(containerNameFor("bot_1"));
   });
 

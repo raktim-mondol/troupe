@@ -4,8 +4,8 @@ import type {
   BackgroundJobHandlers,
   JobPublisher,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
-import type { PrismaClient, ThreadEvents } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import type { PrismaClient, ThreadEvents } from "@troupe/db";
 import { expireComputerControl } from "./computer-control.js";
 import { scheduleComputerSleep, sleepComputerIfIdle } from "./computer-idle.js";
 import type { createRunExecutor } from "./executor.js";

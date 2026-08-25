@@ -1,4 +1,4 @@
-export const COMPUTER_IMAGE = process.env.RAKAZO_COMPUTER_IMAGE ?? "rakazo/computer:local";
+export const COMPUTER_IMAGE = process.env.TROUPE_COMPUTER_IMAGE ?? "troupe/computer:local";
 export const TEAM_SCREEN_LIMIT = 8;
 const SCREEN_HOST = process.env.SANDBOX_SCREEN_HOST ?? "127.0.0.1";
 
@@ -61,32 +61,32 @@ export function containerCreateOptions(input: ComputerCreateInput) {
     Tty: true,
     Env: [
       "DISPLAY=:1",
-      "HOME=/home/rakazo",
-      "PATH=/home/rakazo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-      "NPM_CONFIG_PREFIX=/home/rakazo/.local",
+      "HOME=/home/troupe",
+      "PATH=/home/troupe/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "NPM_CONFIG_PREFIX=/home/troupe/.local",
       "PIP_USER=1",
     ],
     Labels: {
-      "rakazo.managed": "true",
-      "rakazo.botId": input.botId,
-      "rakazo.workspaceId": input.workspaceId,
+      "troupe.managed": "true",
+      "troupe.botId": input.botId,
+      "troupe.workspaceId": input.workspaceId,
     },
     ExposedPorts: ports.ExposedPorts,
     HostConfig: {
-      Binds: [`${input.homePath}:/home/rakazo`],
+      Binds: [`${input.homePath}:/home/troupe`],
       PortBindings: ports.PortBindings,
       ShmSize: 256 * 1024 * 1024,
       ReadonlyPaths: ["/usr/share/novnc"],
       AutoRemove: false,
       NetworkMode: input.networkMode ?? "bridge",
     },
-    WorkingDir: "/home/rakazo",
+    WorkingDir: "/home/troupe",
   };
 }
 
 export function containerNameFor(botId: string) {
   const safe = botId.replace(/[^a-zA-Z0-9_.-]/g, "").slice(0, 40);
-  return `rakazo-bot-${safe || "box"}`;
+  return `troupe-bot-${safe || "box"}`;
 }
 
 export function screenUrlFor(hostPort: string, host = SCREEN_HOST) {

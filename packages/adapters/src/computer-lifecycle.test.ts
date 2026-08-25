@@ -6,8 +6,8 @@ import type {
   AgentHomeStore,
   JobPublisher,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
-import type { PrismaClient, ThreadEvents } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import type { PrismaClient, ThreadEvents } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import {
   acquireComputerExecutionLease,
@@ -28,7 +28,7 @@ const context = {
 
 describe("computer provisioning", () => {
   it("stops a provider when archive invalidates its boot claim", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-provision-race-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-provision-race-"));
     const stop = vi.fn().mockResolvedValue(undefined);
     const releaseScreen = vi.fn().mockResolvedValue(undefined);
     const updateMany = vi
@@ -98,7 +98,7 @@ describe("computer provisioning", () => {
     { fresh: true, cleanup: "destroy" as const },
     { fresh: false, cleanup: "stop" as const },
   ])("rolls back $cleanup when shared preparation fails", async ({ fresh, cleanup }) => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-prepare-rollback-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-prepare-rollback-"));
     const ref = {
       id: "provider-1",
       botId: "bot-1",
@@ -157,7 +157,7 @@ describe("computer provisioning", () => {
   });
 
   it("releases the screen when activation fails on a resumed Team computer", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-team-activation-rollback-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-team-activation-rollback-"));
     const ref = {
       id: "provider-1",
       botId: "team-home",
@@ -220,7 +220,7 @@ describe("computer provisioning", () => {
   });
 
   it("retains a fresh provider reference when rollback also fails", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-prepare-rollback-failure-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-prepare-rollback-failure-"));
     const prepareError = new Error("provider preparation failed");
     const rollbackError = new Error("provider deletion failed");
     const ref = {
@@ -281,7 +281,7 @@ describe("computer provisioning", () => {
   });
 
   it("reconnects a running computer and still prepares the provider", async () => {
-    const dataDir = await mkdtemp(path.join(tmpdir(), "rakazo-provision-reconnect-"));
+    const dataDir = await mkdtemp(path.join(tmpdir(), "troupe-provision-reconnect-"));
     const ref = {
       id: "provider-1",
       botId: "bot-1",

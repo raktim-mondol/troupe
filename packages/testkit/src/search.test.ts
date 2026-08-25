@@ -1,7 +1,7 @@
 import { mkdtempSync } from "node:fs";
 import { tmpdir } from "node:os";
 import path from "node:path";
-import type { ThreadSnapshot } from "@rakazo/contracts";
+import type { ThreadSnapshot } from "@troupe/contracts";
 import { afterAll, beforeAll, describe, expect, it } from "vitest";
 import { sessionCookieHeader } from "./index.js";
 
@@ -18,7 +18,7 @@ describeSearch("workspace search", () => {
   let app: App;
   let stop: () => Promise<void>;
   const stamp = Date.now();
-  const dataDir = mkdtempSync(path.join(tmpdir(), "rakazo-search-"));
+  const dataDir = mkdtempSync(path.join(tmpdir(), "troupe-search-"));
 
   beforeAll(async () => {
     const { createApp } = await import("../../../apps/api/src/app.ts");
@@ -37,7 +37,7 @@ describeSearch("workspace search", () => {
   });
 
   it("finds bots, messages, files, links, and routines within the workspace", async () => {
-    const cookie = await signup(app, `search-${stamp}@rakazo.test`, "Search User");
+    const cookie = await signup(app, `search-${stamp}@troupe.test`, "Search User");
     const bot = await rpc<{ id: string }>(app, cookie, "bots/create", {
       name: "Finder",
       title: "Finder",
@@ -78,7 +78,7 @@ describeSearch("workspace search", () => {
   });
 
   it("returns no hits for another workspace", async () => {
-    const ownerCookie = await signup(app, `search-owner-${stamp}@rakazo.test`, "Owner");
+    const ownerCookie = await signup(app, `search-owner-${stamp}@troupe.test`, "Owner");
     const ownerBot = await rpc<{ id: string }>(app, ownerCookie, "bots/create", {
       name: "OwnerOnly",
       title: "OwnerOnly",
@@ -88,7 +88,7 @@ describeSearch("workspace search", () => {
     });
     await sendAndWait(app, ownerCookie, ownerBot.id, { text: "owner-only-token-xyz" });
 
-    const intruderCookie = await signup(app, `search-intruder-${stamp}@rakazo.test`, "Intruder");
+    const intruderCookie = await signup(app, `search-intruder-${stamp}@troupe.test`, "Intruder");
     const hits = await rpc<{ hits: unknown[] }>(app, intruderCookie, "search/query", {
       q: "owner-only-token-xyz",
     });

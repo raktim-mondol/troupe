@@ -1,5 +1,5 @@
-import type { BackgroundJob, JobPublisher, SandboxProvider } from "@rakazo/adapter-kit";
-import type { PrismaClient, ThreadEvents } from "@rakazo/db";
+import type { BackgroundJob, JobPublisher, SandboxProvider } from "@troupe/adapter-kit";
+import type { PrismaClient, ThreadEvents } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import {
   DEFAULT_TAKEOVER_LEASE_MS,

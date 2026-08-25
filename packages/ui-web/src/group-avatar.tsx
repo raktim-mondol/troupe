@@ -25,7 +25,7 @@ export const GroupAvatar = memo(function GroupAvatar({
     return (
       <div
         className={cn(
-          "rakazo-group-avatar relative flex items-center justify-center rounded-full border border-[#2A2A32] bg-[#1A1A1E] text-[#9A9AA2]",
+          "troupe-group-avatar relative flex items-center justify-center rounded-full border border-[#2A2A32] bg-[#1A1A1E] text-[#9A9AA2]",
           className,
         )}
         style={{ width: size, height: size, flex: "none" }}
@@ -56,7 +56,7 @@ export const GroupAvatar = memo(function GroupAvatar({
         color={firstMember.color}
         size={size}
         status={firstMember.status}
-        className={cn("rakazo-group-avatar", className)}
+        className={cn("troupe-group-avatar", className)}
       />
     );
   }
@@ -77,7 +77,7 @@ export const GroupAvatar = memo(function GroupAvatar({
 
   return (
     <div
-      className={cn("rakazo-group-avatar relative rounded-full select-none", className)}
+      className={cn("troupe-group-avatar relative rounded-full select-none", className)}
       style={{ width: size, height: size, flex: "none" }}
     >
       {visibleMembers.map((member, index) => (

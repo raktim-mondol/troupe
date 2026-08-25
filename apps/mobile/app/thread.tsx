@@ -1,5 +1,5 @@
-import { ChatMarkdown } from "@rakazo/chat-ui/native";
-import type { MessageBlock } from "@rakazo/contracts";
+import { ChatMarkdown } from "@troupe/chat-ui/native";
+import type { MessageBlock } from "@troupe/contracts";
 import {
   abortableDelay,
   attachmentsForThread,
@@ -7,7 +7,7 @@ import {
   isApprovalAskBlock,
   isRunTerminalEvent,
   latestAnswerableAskMessageId,
-} from "@rakazo/core";
+} from "@troupe/core";
 import { Link, useFocusEffect, useLocalSearchParams, useNavigation, useRouter } from "expo-router";
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { Alert, AppState, Image, Pressable, ScrollView, Text, TextInput, View } from "react-native";

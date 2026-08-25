@@ -1,4 +1,4 @@
-import { resolveAuthSecret, resolveEncryptionKey, resolveSupervisorToken } from "@rakazo/core";
+import { resolveAuthSecret, resolveEncryptionKey, resolveSupervisorToken } from "@troupe/core";
 
 export interface AppEnv {
   databaseUrl: string;
@@ -9,6 +9,7 @@ export interface AppEnv {
   apiUrl: string;
   signupsEnabled: string | undefined;
   signupAllowlist: string | undefined;
+  localSignIn: boolean;
   encryptionKey: string;
   dataDir: string;
   sandboxSupervisorUrl: string;
@@ -47,6 +48,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
     apiUrl: source.API_URL ?? "http://127.0.0.1:3100",
     signupsEnabled: source.SIGNUPS_ENABLED,
     signupAllowlist: source.SIGNUP_ALLOWLIST,
+    localSignIn: source.TROUPE_LOCAL_SIGNIN !== "false",
     encryptionKey: resolveEncryptionKey(source),
     dataDir: source.DATA_DIR ?? "./data",
     sandboxSupervisorUrl: source.SANDBOX_SUPERVISOR_URL ?? "http://127.0.0.1:7091",
@@ -75,7 +77,7 @@ export function loadEnv(source: NodeJS.ProcessEnv = process.env): AppEnv {
       .map((value) => value.trim())
       .filter(Boolean),
     port: Number(source.API_PORT ?? 3100),
-    gitSha: optional(source.GIT_SHA) ?? optional(source.RAKAZO_GIT_SHA),
+    gitSha: optional(source.GIT_SHA) ?? optional(source.TROUPE_GIT_SHA),
   };
 }
 

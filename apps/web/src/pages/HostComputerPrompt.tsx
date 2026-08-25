@@ -1,4 +1,4 @@
-import type { Me } from "@rakazo/contracts";
+import type { Me } from "@troupe/contracts";
 import { useEffect, useState } from "react";
 import { desktopBridge } from "../lib/desktop";
 import { rpc } from "../lib/rpc";

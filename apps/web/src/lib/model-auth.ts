@@ -1,9 +1,9 @@
-import type { ModelCatalogEntry } from "@rakazo/contracts";
-import { waitForModelOAuthCompletion } from "@rakazo/core";
+import type { ModelCatalogEntry } from "@troupe/contracts";
+import { waitForModelOAuthCompletion } from "@troupe/core";
 import { rpc } from "./rpc";
 
-export type { ModelCatalogEntry, ModelCredential, ModelOAuthBegin } from "@rakazo/contracts";
-export { cancelModelOAuthAttempt, finishModelOAuthAttempt } from "@rakazo/core";
+export type { ModelCatalogEntry, ModelCredential, ModelOAuthBegin } from "@troupe/contracts";
+export { cancelModelOAuthAttempt, finishModelOAuthAttempt } from "@troupe/core";
 
 export function providerHint(entry: ModelCatalogEntry) {
   if (entry.authHint) return entry.authHint;

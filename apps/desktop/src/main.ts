@@ -11,12 +11,12 @@ import {
 } from "./renderer-assets.js";
 import { browserWindowOptions, warmWindowTtlMs } from "./window-options.js";
 
-const WEB_URL = process.env.RAKAZO_WEB_URL ?? "http://127.0.0.1:5173";
-const PERFORMANCE_USER_DATA = process.env.RAKAZO_PERFORMANCE_USER_DATA;
+const WEB_URL = process.env.TROUPE_WEB_URL ?? "http://127.0.0.1:5173";
+const PERFORMANCE_USER_DATA = process.env.TROUPE_PERFORMANCE_USER_DATA;
 let mainWindow: BrowserWindow | null = null;
 let quitting = false;
 let warmWindowTimer: NodeJS.Timeout | undefined;
-const WARM_WINDOW_TTL_MS = warmWindowTtlMs(process.env.RAKAZO_WARM_WINDOW_TTL_MS);
+const WARM_WINDOW_TTL_MS = warmWindowTtlMs(process.env.TROUPE_WARM_WINDOW_TTL_MS);
 
 markOnce("rk:main:module-evaluated");
 if (PERFORMANCE_USER_DATA) {
@@ -91,7 +91,7 @@ function createWindow() {
     if (
       process.platform === "darwin" &&
       !quitting &&
-      process.env.RAKAZO_DISABLE_WARM_WINDOW !== "1"
+      process.env.TROUPE_DISABLE_WARM_WINDOW !== "1"
     ) {
       event.preventDefault();
       win.hide();
@@ -121,7 +121,7 @@ function createWindow() {
 }
 
 async function installBundledRenderer() {
-  if (!app.isPackaged || process.env.RAKAZO_DISABLE_BUNDLED_RENDERER === "1") return;
+  if (!app.isPackaged || process.env.TROUPE_DISABLE_BUNDLED_RENDERER === "1") return;
   const webUrl = new URL(WEB_URL);
   if (webUrl.protocol !== "http:" && webUrl.protocol !== "https:") return;
   const root = path.join(process.resourcesPath, "web");
@@ -164,7 +164,7 @@ async function installBundledRenderer() {
 }
 
 app.whenReady().then(async () => {
-  if (process.env.RAKAZO_PERFORMANCE_CLEAR_CACHE === "1") {
+  if (process.env.TROUPE_PERFORMANCE_CLEAR_CACHE === "1") {
     await Promise.all([
       session.defaultSession.clearCache(),
       session.defaultSession.clearCodeCaches({}),

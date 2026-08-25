@@ -1,5 +1,5 @@
-import type { AgentHomeStore, JobPublisher, SandboxProvider } from "@rakazo/adapter-kit";
-import type { PrismaClient, ThreadEvents } from "@rakazo/db";
+import type { AgentHomeStore, JobPublisher, SandboxProvider } from "@troupe/adapter-kit";
+import type { PrismaClient, ThreadEvents } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { DEFAULT_SANDBOX_IDLE_MS, sandboxIdleMs, sleepComputerIfIdle } from "./computer-idle.js";
 import {

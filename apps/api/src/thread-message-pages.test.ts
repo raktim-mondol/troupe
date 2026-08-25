@@ -1,4 +1,4 @@
-import type { PrismaClient } from "@rakazo/db";
+import type { PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { loadAllMessages, loadMessagePage } from "./thread-message-pages.js";
 

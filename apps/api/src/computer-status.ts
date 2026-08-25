@@ -1,5 +1,5 @@
-import type { ComputerStatus } from "@rakazo/contracts";
-import { computerScreenSize } from "@rakazo/core";
+import type { ComputerStatus } from "@troupe/contracts";
+import { computerScreenSize } from "@troupe/core";
 
 export function toComputerStatus(
   botId: string,

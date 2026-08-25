@@ -3,10 +3,10 @@ import type {
   AgentRuntime,
   JobPublisher,
   SemanticMemoryResponse,
-} from "@rakazo/adapter-kit";
-import { historyCompactJob } from "@rakazo/adapter-kit";
-import type { MessageBlock } from "@rakazo/contracts";
-import type { PrismaClient } from "@rakazo/db";
+} from "@troupe/adapter-kit";
+import { historyCompactJob } from "@troupe/adapter-kit";
+import type { MessageBlock } from "@troupe/contracts";
+import type { PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import {
   compactHistory,
@@ -151,7 +151,7 @@ describe("selectCompactedHistory", () => {
 describe("formatCompactedSummary", () => {
   it("labels the summary as data and records its coverage", () => {
     expect(formatCompactedSummary("facts", 49)).toContain(
-      "Rakazo-owned compacted context through message sequence 49",
+      "Troupe-owned compacted context through message sequence 49",
     );
     expect(formatCompactedSummary("facts", 49)).toContain("<compacted_thread_summary>");
   });

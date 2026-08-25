@@ -1,6 +1,6 @@
-import { ChatMarkdown } from "@rakazo/chat-ui/web";
-import type { ThreadMessage } from "@rakazo/contracts";
-import { isApprovalAskBlock } from "@rakazo/core";
+import { ChatMarkdown } from "@troupe/chat-ui/web";
+import type { ThreadMessage } from "@troupe/contracts";
+import { isApprovalAskBlock } from "@troupe/core";
 import { useState } from "react";
 
 export type AskBlock = Extract<ThreadMessage["blocks"][number], { kind: "ask" }>;

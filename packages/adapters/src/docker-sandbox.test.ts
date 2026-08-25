@@ -1,4 +1,4 @@
-import type { ProcessEvent } from "@rakazo/adapter-kit";
+import type { ProcessEvent } from "@troupe/adapter-kit";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { DockerSandboxProvider } from "./docker-sandbox.js";
 
@@ -37,7 +37,7 @@ describe("Docker sandbox", () => {
 
     expect(JSON.parse(String(fetchMock.mock.calls[0]?.[1]?.body))).toMatchObject({
       argv: ["sleep", "10"],
-      cwd: "/home/rakazo",
+      cwd: "/home/troupe",
       timeoutMs: 75,
     });
     expect(events).toEqual([
@@ -46,7 +46,7 @@ describe("Docker sandbox", () => {
       { type: "exit", code: 124 },
     ]);
     expect(fetchMock.mock.calls[0]?.[1]?.headers).toMatchObject({
-      "x-rakazo-screen-id": "bot",
+      "x-troupe-screen-id": "bot",
     });
   });
 
@@ -66,10 +66,10 @@ describe("Docker sandbox", () => {
         method: "DELETE",
         headers: expect.objectContaining({
           authorization: "Bearer test-token",
-          "x-rakazo-bot-id": "home-bot",
-          "x-rakazo-screen-id": "bot",
-          "x-rakazo-screen-lease-id": "run-1:1",
-          "x-rakazo-workspace-id": "workspace",
+          "x-troupe-bot-id": "home-bot",
+          "x-troupe-screen-id": "bot",
+          "x-troupe-screen-lease-id": "run-1:1",
+          "x-troupe-workspace-id": "workspace",
         }),
       }),
     );

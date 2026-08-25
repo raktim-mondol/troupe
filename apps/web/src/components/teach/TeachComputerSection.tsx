@@ -1,4 +1,4 @@
-import type { ComputerStatus, TaughtSkill } from "@rakazo/contracts";
+import type { ComputerStatus, TaughtSkill } from "@troupe/contracts";
 import { useMemo, useState } from "react";
 import { rpc } from "../../lib/rpc";
 import { TeachRecordingChrome } from "./TeachRecordingChrome";

@@ -1,5 +1,5 @@
-import type { SearchHit } from "@rakazo/contracts";
-import { groupBotsForSidebar } from "@rakazo/core";
+import type { SearchHit } from "@troupe/contracts";
+import { groupBotsForSidebar } from "@troupe/core";
 import { Redirect, useFocusEffect, useRouter } from "expo-router";
 import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import {

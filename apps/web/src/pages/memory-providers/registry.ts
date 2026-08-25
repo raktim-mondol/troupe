@@ -1,4 +1,4 @@
-import type { WorkspaceMemoryConfig } from "@rakazo/contracts";
+import type { WorkspaceMemoryConfig } from "@troupe/contracts";
 import type { ComponentType } from "react";
 import { SupermemorySettingsForm } from "./SupermemorySettingsForm";
 

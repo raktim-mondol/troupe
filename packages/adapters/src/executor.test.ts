@@ -1,5 +1,5 @@
-import { ONCE_ROUTINE_CRON } from "@rakazo/core";
-import type { PrismaClient } from "@rakazo/db";
+import { ONCE_ROUTINE_CRON } from "@troupe/core";
+import type { PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import { createRunExecutor } from "./executor.js";
 

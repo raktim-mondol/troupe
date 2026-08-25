@@ -4,7 +4,7 @@ import {
   type Bot,
   type BotSection,
   type MessageBlock,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import type { PrismaClient } from "./client.js";
 import { type ComputerMode, ensureComputerRecord, parseComputerMode } from "./computers.js";
 import { createThreadMessageInTransaction } from "./messages.js";

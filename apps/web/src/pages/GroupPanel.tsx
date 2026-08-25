@@ -1,5 +1,5 @@
-import { type Bot, GROUP_MEMBER_MAX, GROUP_MEMBER_MIN, type Group } from "@rakazo/contracts";
-import { BotAvatar, Button } from "@rakazo/ui-web";
+import { type Bot, GROUP_MEMBER_MAX, GROUP_MEMBER_MIN, type Group } from "@troupe/contracts";
+import { BotAvatar, Button } from "@troupe/ui-web";
 import { useMemo, useState } from "react";
 
 function validSelection(name: string, selected: readonly string[]) {

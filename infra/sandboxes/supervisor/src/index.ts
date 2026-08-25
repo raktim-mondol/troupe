@@ -4,8 +4,8 @@ import { mkdir } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 import { serve } from "@hono/node-server";
-import { boundedSandboxCommandTimeoutMs, resolveSupervisorToken } from "@rakazo/core";
-import { loadRootEnv } from "@rakazo/core/node/load-root-env";
+import { boundedSandboxCommandTimeoutMs, resolveSupervisorToken } from "@troupe/core";
+import { loadRootEnv } from "@troupe/core/node/load-root-env";
 import Docker from "dockerode";
 import { Hono } from "hono";
 import { z } from "zod";
@@ -43,7 +43,7 @@ loadRootEnv();
 const dockerSocketPath = resolveDockerSocketPath();
 const docker = dockerSocketPath ? new Docker({ socketPath: dockerSocketPath }) : new Docker();
 const computerContext =
-  process.env.RAKAZO_COMPUTER_CONTEXT ??
+  process.env.TROUPE_COMPUTER_CONTEXT ??
   path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../computer");
 const repositoryRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../../../..");
 const dataDir = path.resolve(repositoryRoot, process.env.DATA_DIR ?? "./data");
@@ -90,7 +90,7 @@ app.post("/computers", async (c) => {
     })
     .parse(await c.req.json());
   try {
-    assertRequestIdentity(c.req.header("x-rakazo-bot-id"), c.req.header("x-rakazo-workspace-id"), {
+    assertRequestIdentity(c.req.header("x-troupe-bot-id"), c.req.header("x-troupe-workspace-id"), {
       botId: body.botId,
       workspaceId: body.workspaceId,
     });
@@ -141,8 +141,8 @@ app.get("/computers/:id", async (c) => {
   try {
     const { container, info } = await managedContainer(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     const screenUrl = await publishedScreenUrl(container, info);
     return c.json({
@@ -170,22 +170,22 @@ app.post("/computers/:id/exec", async (c) => {
   try {
     const { container } = await managedContainer(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
-    const screenId = c.req.header("x-rakazo-screen-id") || c.req.header("x-rakazo-bot-id") || id;
+    const screenId = c.req.header("x-troupe-screen-id") || c.req.header("x-troupe-bot-id") || id;
     const screenIndex = computerScreens.get(id)?.get(screenId)?.index ?? 0;
     const layout = screenPorts(screenIndex);
     const result = await runContainerCommand(
       container,
       body.argv.length ? body.argv : ["/bin/echo", "ready"],
       {
-        workingDir: body.cwd ?? "/home/rakazo",
+        workingDir: body.cwd ?? "/home/troupe",
         env: [
           `DISPLAY=${layout.display}`,
-          "HOME=/home/rakazo",
-          "PATH=/home/rakazo/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
-          "NPM_CONFIG_PREFIX=/home/rakazo/.local",
+          "HOME=/home/troupe",
+          "PATH=/home/troupe/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+          "NPM_CONFIG_PREFIX=/home/troupe/.local",
           "PIP_USER=1",
           ...Object.entries(body.env ?? {}).map(([k, v]) => `${k}=${v}`),
         ],
@@ -203,10 +203,10 @@ app.post("/computers/:id/observe", async (c) => {
   try {
     const { container, layout } = await managedScreen(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
-      c.req.header("x-rakazo-screen-id"),
-      c.req.header("x-rakazo-screen-lease-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
+      c.req.header("x-troupe-screen-id"),
+      c.req.header("x-troupe-screen-lease-id"),
     );
     return c.json(await observeContainer(container, layout.display));
   } catch (error) {
@@ -226,10 +226,10 @@ app.post("/computers/:id/actions", async (c) => {
   try {
     const { container, layout } = await managedScreen(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
-      c.req.header("x-rakazo-screen-id"),
-      c.req.header("x-rakazo-screen-lease-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
+      c.req.header("x-troupe-screen-id"),
+      c.req.header("x-troupe-screen-lease-id"),
     );
     if (body.actions.length) await applyContainerActions(container, body.actions, layout.display);
     if (body.settleMs) await new Promise((resolve) => setTimeout(resolve, body.settleMs));
@@ -249,8 +249,8 @@ app.get("/computers/:id/files", async (c) => {
   try {
     const { container } = await managedContainer(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     const relative = normalizeWorkspaceRelative(c.req.query("path") ?? "");
     const target = workspaceTarget(relative);
@@ -318,8 +318,8 @@ app.post("/computers/:id/files", async (c) => {
   try {
     const { container } = await managedContainer(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     const target = workspaceTarget(normalizeWorkspaceRelative(body.path));
     await writeContainerFile(
@@ -340,10 +340,10 @@ app.get("/computers/:id/screen", async (c) => {
   try {
     const { container, info, layout } = await managedScreen(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
-      c.req.header("x-rakazo-screen-id"),
-      c.req.header("x-rakazo-screen-lease-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
+      c.req.header("x-troupe-screen-id"),
+      c.req.header("x-troupe-screen-lease-id"),
     );
     const screenUrl = await publishedScreenUrl(container, info, layout.viewPort);
     return c.redirect(screenUrl);
@@ -369,10 +369,10 @@ app.post("/computers/:id/screen-mode", async (c) => {
   try {
     const { container, info, layout } = await managedScreen(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
-      c.req.header("x-rakazo-screen-id"),
-      c.req.header("x-rakazo-screen-lease-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
+      c.req.header("x-troupe-screen-id"),
+      c.req.header("x-troupe-screen-lease-id"),
     );
     if (body.interactive || body.revokeControl !== false) {
       await setInteractiveScreen(container, body.interactive, body.controlToken, layout);
@@ -410,10 +410,10 @@ app.post("/computers/:id/input", async (c) => {
   try {
     const { container, layout } = await managedScreen(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
-      c.req.header("x-rakazo-screen-id"),
-      c.req.header("x-rakazo-screen-lease-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
+      c.req.header("x-troupe-screen-id"),
+      c.req.header("x-troupe-screen-lease-id"),
     );
     const result = await runContainerCommand(container, [
       "env",
@@ -434,14 +434,14 @@ app.delete("/computers/:id/screen", async (c) => {
   try {
     const { container } = await managedContainer(
       c.req.param("id"),
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     const screenId =
-      c.req.header("x-rakazo-screen-id") || c.req.header("x-rakazo-bot-id") || c.req.param("id");
+      c.req.header("x-troupe-screen-id") || c.req.header("x-troupe-bot-id") || c.req.param("id");
     const assigned = computerScreens.get(c.req.param("id"));
     const index = assigned
-      ? releaseAssignedScreen(assigned, screenId, c.req.header("x-rakazo-screen-lease-id"))
+      ? releaseAssignedScreen(assigned, screenId, c.req.header("x-troupe-screen-lease-id"))
       : undefined;
     const stop = index !== undefined ? stopExtraScreenCommand(index) : "";
     try {
@@ -464,8 +464,8 @@ app.post("/computers/:id/stop", async (c) => {
   try {
     const { container } = await managedContainer(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     await container.stop().catch(() => undefined);
     clearComputerScreenRegistry(computerScreens, id);
@@ -480,8 +480,8 @@ app.delete("/computers/:id", async (c) => {
   try {
     const { container } = await managedContainer(
       id,
-      c.req.header("x-rakazo-bot-id"),
-      c.req.header("x-rakazo-workspace-id"),
+      c.req.header("x-troupe-bot-id"),
+      c.req.header("x-troupe-workspace-id"),
     );
     await container.remove({ force: true }).catch(() => undefined);
     clearComputerScreenRegistry(computerScreens, id);
@@ -524,7 +524,7 @@ async function ensureComputerImage() {
           src: [
             "Dockerfile",
             "start.sh",
-            "rakazo-browser",
+            "troupe-browser",
             "embed.html",
             "fluxbox.init",
             "fluxbox.apps",
@@ -545,12 +545,12 @@ async function ensureComputerImage() {
 async function findBotContainer(botId: string, workspaceId: string) {
   const listed = await docker.listContainers({
     all: true,
-    filters: { label: [`rakazo.botId=${botId}`, `rakazo.workspaceId=${workspaceId}`] },
+    filters: { label: [`troupe.botId=${botId}`, `troupe.workspaceId=${workspaceId}`] },
   });
   for (const item of listed) {
     const container = docker.getContainer(item.Id);
     const info = await container.inspect();
-    if (isRakazoContainer(info, botId, workspaceId)) return container;
+    if (isTroupeContainer(info, botId, workspaceId)) return container;
   }
   return undefined;
 }
@@ -559,7 +559,7 @@ async function managedContainer(id: string, botId?: string, workspaceId?: string
   if (!botId || !workspaceId) throw new Error("missing computer identity");
   const container = docker.getContainer(id);
   const info = await container.inspect();
-  if (!isRakazoContainer(info, botId, workspaceId)) throw new Error("computer identity mismatch");
+  if (!isTroupeContainer(info, botId, workspaceId)) throw new Error("computer identity mismatch");
   return { container, info };
 }
 
@@ -586,11 +586,11 @@ async function managedScreen(
   return { container, info, layout };
 }
 
-function isRakazoContainer(info: Docker.ContainerInspectInfo, botId: string, workspaceId: string) {
+function isTroupeContainer(info: Docker.ContainerInspectInfo, botId: string, workspaceId: string) {
   const labels = info.Config.Labels ?? {};
-  const managed = labels["rakazo.managed"] === "true" || info.Config.Image === COMPUTER_IMAGE;
+  const managed = labels["troupe.managed"] === "true" || info.Config.Image === COMPUTER_IMAGE;
   return (
-    managed && labels["rakazo.botId"] === botId && labels["rakazo.workspaceId"] === workspaceId
+    managed && labels["troupe.botId"] === botId && labels["troupe.workspaceId"] === workspaceId
   );
 }
 
@@ -678,7 +678,7 @@ async function runContainerCommand(
 ): Promise<{ stdout: string; stderr: string; code: number }> {
   const timeoutMs = options.timeoutMs;
   const completionMarker = timeoutMs
-    ? `/tmp/rakazo-command-${randomUUID()}.completed-124`
+    ? `/tmp/troupe-command-${randomUUID()}.completed-124`
     : undefined;
   const command =
     completionMarker && timeoutMs !== undefined
@@ -688,8 +688,8 @@ async function runContainerCommand(
     Cmd: command,
     AttachStdout: true,
     AttachStderr: true,
-    WorkingDir: options.workingDir ?? "/home/rakazo",
-    Env: options.env ?? ["DISPLAY=:1", "HOME=/home/rakazo"],
+    WorkingDir: options.workingDir ?? "/home/troupe",
+    Env: options.env ?? ["DISPLAY=:1", "HOME=/home/troupe"],
   });
   const stream = await exec.start({ hijack: true, stdin: false });
   const chunks: Buffer[] = [];
@@ -780,8 +780,8 @@ async function writeContainerFile(
     AttachStdin: true,
     AttachStdout: true,
     AttachStderr: true,
-    WorkingDir: "/home/rakazo",
-    Env: ["HOME=/home/rakazo"],
+    WorkingDir: "/home/troupe",
+    Env: ["HOME=/home/troupe"],
   });
   const stream = await exec.start({ hijack: true, stdin: true });
   const chunks: Buffer[] = [];

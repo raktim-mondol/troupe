@@ -5,7 +5,7 @@ import type {
   ManagedConnectorProvider,
   RealtimeFanout,
   SandboxProvider,
-} from "@rakazo/adapter-kit";
+} from "@troupe/adapter-kit";
 import {
   type ComposioProvider,
   type ConnectorRegistry,
@@ -37,10 +37,10 @@ import {
   type RemoteConnectorDependencies,
   ScriptedAgentRuntime,
   WorkspaceMemoryProviderResolver,
-} from "@rakazo/adapters";
-import { blockedAuthPaths, createAuth } from "@rakazo/auth";
-import { createDb, createThreadEvents, type PrismaClient, requireMembership } from "@rakazo/db";
-import { MarkdownMemoryStore } from "@rakazo/memory";
+} from "@troupe/adapters";
+import { blockedAuthPaths, createAuth, ensureLocalUser, LOCAL_USER_EMAIL, localUserPassword } from "@troupe/auth";
+import { createDb, createThreadEvents, type PrismaClient, requireMembership } from "@troupe/db";
+import { MarkdownMemoryStore } from "@troupe/memory";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
 import { type AppEnv, loadEnv } from "./env.js";
@@ -96,6 +96,9 @@ export async function createApp(
     create: { id: "default" },
     update: {},
   });
+  if (env.localSignIn) {
+    await ensureLocalUser(prisma, env.authSecret);
+  }
 
   const jobKind = env.wakeupDriver;
   const inMemoryJobs = jobKind === "memory" ? new InMemoryJobQueue() : undefined;
@@ -153,7 +156,7 @@ export async function createApp(
     signupsEnabled: env.signupsEnabled,
     signupAllowlist: env.signupAllowlist,
     extraOrigins: [
-      "rakazo://",
+      "troupe://",
       "exp://",
       "exp://*",
       "http://localhost:8081",
@@ -262,6 +265,32 @@ export async function createApp(
       credentials: true,
     }),
   );
+  app.post("/api/auth/local-signin", async (c) => {
+    if (!env.localSignIn) {
+      return c.json({ error: "Local sign-in is disabled" }, 404);
+    }
+    const url = new URL(c.req.url);
+    url.pathname = "/api/auth/sign-in/email";
+    const request = new Request(url, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({
+        email: LOCAL_USER_EMAIL,
+        password: localUserPassword(env.authSecret),
+      }),
+    });
+    const response = await auth.handler(request);
+    if (!response.ok) {
+      return c.json({ error: "Local sign-in failed" }, 500);
+    }
+    return new Response(response.body, {
+      status: 200,
+      headers: {
+        "content-type": "application/json",
+        "set-cookie": response.headers.get("set-cookie") ?? "",
+      },
+    });
+  });
   app.on(["GET", "POST"], "/api/auth/*", async (c) => {
     const path = new URL(c.req.url).pathname.replace("/api/auth", "");
     if (blockedAuthPaths.some((blocked) => path.startsWith(blocked))) {
@@ -324,7 +353,7 @@ export async function createApp(
 function isTrustedOrigin(origin: string, env: AppEnv) {
   if (!origin) return true;
   if (origin === env.webOrigin || origin === env.apiUrl || origin === env.authUrl) return true;
-  if (origin.startsWith("rakazo://") || origin.startsWith("exp://")) return true;
+  if (origin.startsWith("troupe://") || origin.startsWith("exp://")) return true;
   try {
     const host = new URL(origin).hostname;
     return host === "localhost" || host === "127.0.0.1";

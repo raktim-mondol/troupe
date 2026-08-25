@@ -1,4 +1,4 @@
-import type { ActionApprovalRule } from "@rakazo/contracts";
+import type { ActionApprovalRule } from "@troupe/contracts";
 import { useEffect, useState } from "react";
 import { rpc } from "../lib/rpc";
 

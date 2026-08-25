@@ -1,10 +1,98 @@
-import { randomBytes } from "node:crypto";
-import { emailAllowed, parseAllowlist, signupsOpen } from "@rakazo/core";
-import type { PrismaClient } from "@rakazo/db";
+import { createHash, randomBytes } from "node:crypto";
+import { emailAllowed, parseAllowlist, signupsOpen } from "@troupe/core";
+import type { PrismaClient } from "@troupe/db";
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
 import { APIError } from "better-auth/api";
+import { hashPassword } from "better-auth/crypto";
 import { bearer, organization } from "better-auth/plugins";
+
+export const LOCAL_USER_EMAIL = "local@troupe.local";
+
+/**
+ * Deterministic password for the auto-provisioned local user. Derived from the
+ * auth secret so it never appears in plaintext and differs per deployment.
+ */
+export function localUserPassword(secret: string): string {
+  return createHash("sha256").update(`${secret}:troupe-local-user`).digest("hex");
+}
+
+async function provisionUserWorkspace(prisma: PrismaClient, user: { id: string }) {
+  const orgId = newId();
+  await prisma.organization.create({
+    data: {
+      id: orgId,
+      name: "Personal",
+      slug: `user-${user.id.slice(0, 12)}`,
+      createdAt: new Date(),
+    },
+  });
+  await prisma.member.create({
+    data: {
+      id: newId(),
+      organizationId: orgId,
+      userId: user.id,
+      role: "owner",
+      createdAt: new Date(),
+    },
+  });
+  const existing = await prisma.deploymentSettings.findUnique({
+    where: { id: "default" },
+  });
+  if (!existing) {
+    await prisma.deploymentSettings.create({
+      data: { id: "default", ownerUserId: user.id },
+    });
+  } else if (!existing.ownerUserId) {
+    await prisma.deploymentSettings.update({
+      where: { id: "default" },
+      data: { ownerUserId: user.id },
+    });
+  }
+  await prisma.memoryDocument.create({
+    data: {
+      workspaceId: orgId,
+      userId: user.id,
+      scope: "user",
+      path: "MEMORY.md",
+      content: "# User memory\n\nAccount-wide preferences live here.\n",
+    },
+  });
+  await prisma.notificationPreference.create({
+    data: {
+      workspaceId: orgId,
+      userId: user.id,
+    },
+  });
+}
+
+/**
+ * Creates the auto-provisioned local user (and their workspace) on first boot.
+ * Used to run Troupe without any account creation or sign-in.
+ */
+export async function ensureLocalUser(prisma: PrismaClient, secret: string) {
+  const existing = await prisma.user.findUnique({ where: { email: LOCAL_USER_EMAIL } });
+  if (existing) return existing;
+  const passwordHash = await hashPassword(localUserPassword(secret));
+  const user = await prisma.user.create({
+    data: {
+      id: newId(),
+      name: "Local",
+      email: LOCAL_USER_EMAIL,
+      emailVerified: true,
+      accounts: {
+        create: {
+          id: newId(),
+          accountId: newId(),
+          providerId: "credential",
+          password: passwordHash,
+        },
+      },
+    },
+  });
+  await provisionUserWorkspace(prisma, user);
+  return user;
+}
 
 export interface AuthEnv {
   secret: string;
@@ -22,7 +110,7 @@ function newId(): string {
 
 export function createAuth(prisma: PrismaClient, env: AuthEnv) {
   return betterAuth({
-    appName: "Rakazo",
+    appName: "Troupe",
     secret: env.secret,
     baseURL: env.baseURL,
     trustedOrigins: [env.webOrigin, env.baseURL, ...(env.extraOrigins ?? [])],
@@ -86,52 +174,7 @@ export function createAuth(prisma: PrismaClient, env: AuthEnv) {
       user: {
         create: {
           after: async (user) => {
-            const orgId = newId();
-            await prisma.organization.create({
-              data: {
-                id: orgId,
-                name: "Personal",
-                slug: `user-${user.id.slice(0, 12)}`,
-                createdAt: new Date(),
-              },
-            });
-            await prisma.member.create({
-              data: {
-                id: newId(),
-                organizationId: orgId,
-                userId: user.id,
-                role: "owner",
-                createdAt: new Date(),
-              },
-            });
-            const existing = await prisma.deploymentSettings.findUnique({
-              where: { id: "default" },
-            });
-            if (!existing) {
-              await prisma.deploymentSettings.create({
-                data: { id: "default", ownerUserId: user.id },
-              });
-            } else if (!existing.ownerUserId) {
-              await prisma.deploymentSettings.update({
-                where: { id: "default" },
-                data: { ownerUserId: user.id },
-              });
-            }
-            await prisma.memoryDocument.create({
-              data: {
-                workspaceId: orgId,
-                userId: user.id,
-                scope: "user",
-                path: "MEMORY.md",
-                content: "# User memory\n\nAccount-wide preferences live here.\n",
-              },
-            });
-            await prisma.notificationPreference.create({
-              data: {
-                workspaceId: orgId,
-                userId: user.id,
-              },
-            });
+            await provisionUserWorkspace(prisma, user);
           },
         },
       },

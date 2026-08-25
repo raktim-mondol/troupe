@@ -1,5 +1,5 @@
-import type { BackgroundJob, JobPublisher } from "@rakazo/adapter-kit";
-import type { Pool, PrismaClient } from "@rakazo/db";
+import type { BackgroundJob, JobPublisher } from "@troupe/adapter-kit";
+import type { Pool, PrismaClient } from "@troupe/db";
 import { describe, expect, it, vi } from "vitest";
 import {
   createJobReconciler,

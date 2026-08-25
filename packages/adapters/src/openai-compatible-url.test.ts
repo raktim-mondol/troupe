@@ -6,11 +6,11 @@ import {
   openAiCompatAllowPublicHosts,
 } from "./openai-compatible-url.js";
 
-const savedAllowPublic = process.env.RAKAZO_OPENAI_COMPAT_ALLOW_PUBLIC;
+const savedAllowPublic = process.env.TROUPE_OPENAI_COMPAT_ALLOW_PUBLIC;
 
 afterEach(() => {
-  if (savedAllowPublic === undefined) delete process.env.RAKAZO_OPENAI_COMPAT_ALLOW_PUBLIC;
-  else process.env.RAKAZO_OPENAI_COMPAT_ALLOW_PUBLIC = savedAllowPublic;
+  if (savedAllowPublic === undefined) delete process.env.TROUPE_OPENAI_COMPAT_ALLOW_PUBLIC;
+  else process.env.TROUPE_OPENAI_COMPAT_ALLOW_PUBLIC = savedAllowPublic;
 });
 
 describe("openai-compatible URL policy", () => {
@@ -79,13 +79,13 @@ describe("openai-compatible URL policy", () => {
   });
 
   it("rejects public hosts unless explicitly allowed", () => {
-    delete process.env.RAKAZO_OPENAI_COMPAT_ALLOW_PUBLIC;
+    delete process.env.TROUPE_OPENAI_COMPAT_ALLOW_PUBLIC;
     expect(openAiCompatAllowPublicHosts()).toBe(false);
     expect(() => assertAllowedOpenAiCompatibleUrl("https://api.example.com/v1")).toThrow(
       /Public model endpoints are blocked/,
     );
 
-    process.env.RAKAZO_OPENAI_COMPAT_ALLOW_PUBLIC = "1";
+    process.env.TROUPE_OPENAI_COMPAT_ALLOW_PUBLIC = "1";
     expect(assertAllowedOpenAiCompatibleUrl("https://api.example.com/v1").href).toBe(
       "https://api.example.com/v1",
     );

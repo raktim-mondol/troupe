@@ -1,4 +1,4 @@
-import { ChatMarkdown } from "@rakazo/chat-ui/web";
+import { ChatMarkdown } from "@troupe/chat-ui/web";
 import type {
   Bot,
   BotSection,
@@ -17,7 +17,7 @@ import type {
   VoiceInfo,
   VoiceStatus,
   WorkspaceMemoryConfig,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import {
   ATTACHMENT_ALLOWED_MIME_TYPES,
   ATTACHMENT_MAX_BYTES,
@@ -26,7 +26,7 @@ import {
   BOT_NAME_MAX_LENGTH,
   BOT_TITLE_MAX_LENGTH,
   normalizeCreateBotProfile,
-} from "@rakazo/contracts";
+} from "@troupe/contracts";
 import {
   abortableDelay,
   attachmentsForThread,
@@ -41,14 +41,13 @@ import {
   latestAnswerableAskMessageId,
   presetFromCron,
   speechFromBlocks,
-} from "@rakazo/core";
-import { BotAvatar, Button, GroupAvatar } from "@rakazo/ui-web";
+} from "@troupe/core";
+import { BotAvatar, Button, GroupAvatar } from "@troupe/ui-web";
 import {
   ArrowUp,
   ChevronLeft,
   Cpu,
   Gauge,
-  LogOut,
   Menu,
   Mic,
   Monitor,
@@ -636,6 +635,7 @@ export function ShellPage() {
       if (abort.signal.aborted) return;
       let cursor = snap?.cursor ?? -1;
       let retryMs = 250;
+      const stickToBottom = createBottomFollower(() => messageScroll.current);
       while (!abort.signal.aborted) {
         try {
           const events = await rpc.threads.subscribe(
@@ -647,6 +647,7 @@ export function ShellPage() {
             cursor = Math.max(cursor, event.seq);
             retryMs = 250;
             applyThreadEvent(event, setSnapshot, setComputer);
+            stickToBottom();
             if (event.type === "thread.cleared") {
               expandedHistoryThread.current = null;
               pinnedAroundRef.current = null;
@@ -726,6 +727,7 @@ export function ShellPage() {
       if (abort.signal.aborted) return;
       let cursor = snap?.cursor ?? -1;
       let retryMs = 250;
+      const stickToBottom = createBottomFollower(() => messageScroll.current);
       while (!abort.signal.aborted) {
         try {
           const events = await rpc.threads.subscribe({ groupId, cursor }, { signal: abort.signal });
@@ -734,6 +736,7 @@ export function ShellPage() {
             cursor = Math.max(cursor, event.seq);
             retryMs = 250;
             applyThreadEvent(event, setSnapshot, setComputer);
+            stickToBottom();
             if (event.type === "thread.message.created" && event.payload.role === "bot") {
               readVisibleGroups.current.delete(groupId);
               markVisibleGroupRead();
@@ -1574,14 +1577,6 @@ export function ShellPage() {
                   {usage.runs} runs · {usage.inputTokens + usage.outputTokens} tokens
                 </p>
               ) : null}
-              <button
-                type="button"
-                onClick={() => void authClient.signOut().then(() => navigate("/"))}
-                className="flex w-full items-center gap-3 rounded-[11px] px-3 py-2.5 hover:bg-[#232327]"
-              >
-                <LogOut size={16} strokeWidth={1.7} className="text-[#9A9AA0]" />
-                <span className="text-[14.5px] text-[#ECECEE]">Log out</span>
-              </button>
             </div>
           ) : null}
           <button
@@ -2779,6 +2774,28 @@ function applyThreadEvent(
   if (isComputerStatusEvent(event)) {
     setComputer((prev) => reduceComputerStatus(prev, event));
   }
+}
+
+// Follows the bottom of the transcript while events stream in, but only when
+// the user is already at (or near) the bottom — scrolling up to read stops
+// the follow until they scroll back down. Stickiness is captured from the
+// layout BEFORE the incoming event's text lands (the event's state update is
+// async), then applied after the next paint, mirroring refreshThread's rule.
+function createBottomFollower(getElement: () => HTMLDivElement | null) {
+  let pending = false;
+  return () => {
+    if (pending) return;
+    pending = true;
+    const element = getElement();
+    if (!element) return;
+    const stick = element.scrollHeight - element.scrollTop - element.clientHeight < 80;
+    window.requestAnimationFrame(() => {
+      pending = false;
+      const current = getElement();
+      if (!current || !stick) return;
+      current.scrollTop = current.scrollHeight;
+    });
+  };
 }
 
 function ComputerReleaseActions({
@@ -3989,7 +4006,7 @@ function AppConnectCard({
         displayName: block.name,
       });
       if (started.authorizationUrl) {
-        window.open(started.authorizationUrl, "rakazo-app-connect", "popup,width=560,height=720");
+        window.open(started.authorizationUrl, "troupe-app-connect", "popup,width=560,height=720");
       }
       for (let i = 0; i < 60; i += 1) {
         if (controller.signal.aborted) return;
@@ -4079,7 +4096,7 @@ function ChartCanvas({
     // Plot loads lazily so threads without charts never pay for the library.
     void (async () => {
       try {
-        const { buildPlotParts } = await import("@rakazo/core/plot");
+        const { buildPlotParts } = await import("@troupe/core/plot");
         if (cancelled || !ref.current) return;
         // Hover inspection by default: give the first mark a tooltip unless
         // the spec already asks for one somewhere.
